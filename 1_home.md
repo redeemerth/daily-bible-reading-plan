@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Home
-permalink: #
+permalink: index.html
 ---
 ###### A Jekyll theme based in Google Material Design Lite library.
 
