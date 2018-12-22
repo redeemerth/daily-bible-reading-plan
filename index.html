@@ -3,12 +3,8 @@ layout: default
 ---
 <div class="page-content">
   <div class="mdl-grid">
-  {% if site.post_type == 'highlight' %}
 
-    {% for post in site.posts %}
-    {% if post.highlight %}
 
-    <div class="section-highlight section--center mdl-grid mdl-shadow--2dp mdl-cell--12-col">
 
       <div class="mdl-card mdl-cell mdl-cell--6-col" >
         <div class="mdl-card__supporting-text">
@@ -23,7 +19,7 @@ layout: default
         </div>
       </div>
 
-    </div>
+
 
     {% else %}
 
