@@ -10,10 +10,5 @@ header_type: default  # values [ drawer, default ]
 post_type: highlight    # values [ highlight, default ]
 pagination_type: default  # values [ ops, default ]
 
-more_vert:
-  option1:
-    name: Redeemer Home
-    link: www.redeemerth.org
-
 # Build settings
 markdown: kramdown
