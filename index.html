@@ -3,8 +3,8 @@ layout: default
 ---
 <div class="page-content">
   <div>
-    <p>{% assign day = site.data.test["1"] %}{{day.title}}</p>
-    <p>{% assign day = site.data.test[0] %}{{day.title}}</p>
+    <p>{% assign day = site.data.test["1"] %}{{day.title}}{{day}}</p>
+    <p>{% assign day = site.data.test[0] %}{{day.title}}{{day}}</p>
   </div>
 
   <div><p>{% site.data.test.1 %}</p></div>
