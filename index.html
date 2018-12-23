@@ -2,15 +2,11 @@
 layout: default
 ---
 <div class="page-content">
-  <div>
+  <div class="mdl-grid">
+
     <p>{% assign day = site.data.test["1"] %}{{day.title}}{{day}}Test1</p>
     <p>{% assign day = site.data.test[0] %}{{day.title}}{{day}}Test2</p>
-  </div>
-
-  <div><p>{% site.data.test.1 %}</p></div>
-  <div><p>{% site.data.test.1.id %}</p></div>
-  <div><p>{% site.data.test.1["id"] %}</p></div>
-  <div class="mdl-grid">
+  
     <div class="mdl-card mdl-cell mdl-cell--6-col" >
       <h4>ESV Audio (No Commentary)</h4>
       <div class="mdl-card__supporting-text">
