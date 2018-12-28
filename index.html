@@ -5,7 +5,7 @@ layout: default
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <p class="mdl-color-text--grey-600">Or choose a different reading date to load:</p>
-        <p class="mdl-color-text--grey-600">Date: <input type="text" id="datepicker"></p>
+        <p class="mdl-color-text--grey-600">Date: <input type="date" id="datepicker"></p>
       </div>
       <div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <h4 class="mdl-layout__title" id="plan_description" style="text-align: center">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}</h4>
@@ -40,8 +40,9 @@ layout: default
     };
 
     // Retrieve variables from file and update DOM
-    updateDom = function(day, data) {
+    populateReadingByDay = function(day, data) {
       // Get data that corresponds to current value of day
+      console.log(`Day is ${day}`)
       let day_reading_data = data.days[day];
 
       // Get list of Scriptures that corresponds to current value of day
@@ -73,14 +74,16 @@ layout: default
       // Get day
       let day = new Date().getDOY();
       console.log(day);
-      updateDom(day, data);
-      $("#datepicker").datepicker({
-          onSelect: function(dateText, inst) { 
-            var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
-            let day = dateAsObject.getDOY();
-            console.log(`Day selected: ${day}`)
-            updateDom(day, data);
-        }
+      populateReadingByDay(day, data);
+      
+
+      $("input").on("change", function () {
+        var myDate = new Date($(this).val());
+        console.log(myDate, myDate.getTime());
+        console.log(`Day selected: ${myDate}`)
+        populateReadingByDay(myDate.getDOY(), data);
       });
+      
+      
     }
   </script>
