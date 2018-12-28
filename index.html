@@ -3,16 +3,12 @@ layout: default
 ---
   <main class = "mdl-layout__content">  
     <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-      </div>
-      <div class="mdl-cell mdl-cell--10-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-        <h4 id="plan_description" style="text-align: center">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}</h4>
-      </div>
-      <div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+      <div class="mdl-cell  mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <p>Date: <input type="text" id="datepicker"></p>
       </div>
-      <div class="mdl-cell mdl-cell--10-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-          <h4 id="readings" style="text-align: center"></h4>
+      <div class="mdl-cell  mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <h4 class="mdl-layout__title" id="plan_description" style="text-align: center">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}</h4>
+        <p id="readings" style="text-align: center"></p>
       </div>
       <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp">
@@ -64,7 +60,7 @@ layout: default
       // Get list of Scriptures that corresponds to current value of day
       let readings = day_reading_data["oyb"]["readings"];
       // Update h4 element with Scripture readings
-      document.getElementById('readings').innerHTML = readings.join(', ');
+      document.getElementById('readings').innerHTML = `Day ${day}: ${readings.join(', ')}`;
       // Build Bible Gateway URL
       let base_url = 'https://www.biblegateway.com/quicksearch/?quicksearch={var1}&version=NLT';
       let bg_url = base_url.replace('{var1}', readings.join(';'))
