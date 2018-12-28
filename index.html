@@ -15,7 +15,7 @@ layout: default
           <div class="mdl-card__supporting-text">
             <h4 id="audio_description">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.audio_description}}</h4>
           </div>
-          <video height="25" controls="" autoplay="false" name="media">
+          <video id="audio_refresh" height="25" controls="" autoplay="true" name="media">
               <source id="audio_url" type="audio/mp3">
           </video>
         </div>
@@ -29,34 +29,27 @@ layout: default
   </main>
   <script type="text/javascript">
 
-    Date.prototype.isLeapYear = function() {
-      var year = this.getFullYear();
-      if((year & 3) != 0) return false;
-      return ((year % 100) != 0 || (year % 400) == 0);
-    };
-
     // Get Day of Year
     Date.prototype.getDOY = function() {
       var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
       var mn = this.getMonth();
       var dn = this.getDate();
       var dayOfYear = dayCount[mn] + dn;
-      if(mn > 1 && this.isLeapYear()) dayOfYear++;
       return dayOfYear;
     };
 
     // Retrieve variables from file and update DOM
-    updateDom = function(day) {
-      // Get main json from file; convert from Ruby hash to json object
-      let data = {{site.data.main | jsonify}}
+    updateDom = function(day, data) {
       // Get data that corresponds to current value of day
       let day_reading_data = data.days[day];
       // Get url part that corresponds to current value of day
       let url = data.plans.oyb_nlt.url;
       // Create complete URL
       url = url.replace("{var1}", day_reading_data["oyb"]["audio"]["nlt"]);
+      console.log(`Daily reading url: ${url}`)
       // Update div with src and url value
       document.getElementById('audio_url').src = url;
+      document.getElementById('audio_refresh').load();
       // Get list of Scriptures that corresponds to current value of day
       let readings = day_reading_data["oyb"]["readings"];
       // Update h4 element with Scripture readings
@@ -71,16 +64,19 @@ layout: default
     };
     
     window.onload = function() {
+      // Get main json from file; convert from Ruby hash to json object
+      let data = {{site.data.main | jsonify}}
       // Get day
       let day = new Date().getDOY();
       console.log(day);
-      updateDom(day);
+      updateDom(day, data);
       $("#datepicker").datepicker({
           onSelect: function(dateText, inst) { 
-            var dateAsString = dateText; //the first parameter of this function
             var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
-            console.log(dateAsString)
-            let day = new Date().getDOY(); console.log(dateAsObject)
+            let day = dateAsObject.getDOY();
+            console.log(`Day selected: ${day}`)
+            updateDom(day, data);
+            console.log(day)
         }
       });
     }
