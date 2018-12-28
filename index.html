@@ -1,14 +1,15 @@
 ---
 layout: default
 ---
-  <main class = "mdl-layout__content">  
+  <main class = "mdl-layout__content mdl-color-text--primary">
     <div class="mdl-grid">
-      <div class="mdl-cell  mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-        <p>Date: <input type="text" id="datepicker"></p>
+      <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <p class="mdl-color-text--grey-600">Or choose a different reading date to load:</p>
+        <p class="mdl-color-text--grey-600">Date: <input type="text" id="datepicker"></p>
       </div>
-      <div class="mdl-cell  mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+      <div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <h4 class="mdl-layout__title" id="plan_description" style="text-align: center">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}</h4>
-        <h6 id="readings" style="text-align: center"></h6>
+        <h6 class="mdl-layout__headline" id="readings" style="text-align: center"></h6>
       </div>
       <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp">
@@ -42,6 +43,20 @@ layout: default
     updateDom = function(day, data) {
       // Get data that corresponds to current value of day
       let day_reading_data = data.days[day];
+
+      // Get list of Scriptures that corresponds to current value of day
+      let readings = day_reading_data["oyb"]["readings"];
+      // Update h4 element with Scripture readings
+      document.getElementById('readings').innerHTML = `Day ${day}: ${readings.join(', ')}`;
+
+      // Build Bible Gateway URL
+      let base_url = 'https://www.biblegateway.com/quicksearch/?quicksearch={var1}&version=NLT';
+      let bg_url = base_url.replace('{var1}', readings.join(';'))
+      // encode URL
+      bg_url = encodeURI(bg_url);
+      // Update iframe to display Bible Gateway texts
+      document.getElementById('bg_readings').src = bg_url;
+
       // Get url part that corresponds to current value of day
       let url = data.plans.oyb_nlt.url;
       // Create complete URL
@@ -50,17 +65,6 @@ layout: default
       // Update div with src and url value
       document.getElementById('audio_url').src = url;
       document.getElementById('audio_refresh').load();
-      // Get list of Scriptures that corresponds to current value of day
-      let readings = day_reading_data["oyb"]["readings"];
-      // Update h4 element with Scripture readings
-      document.getElementById('readings').innerHTML = `Day ${day}: ${readings.join(', ')}`;
-      // Build Bible Gateway URL
-      let base_url = 'https://www.biblegateway.com/quicksearch/?quicksearch={var1}&version=NLT';
-      let bg_url = base_url.replace('{var1}', readings.join(';'))
-      // encode URL
-      bg_url = encodeURI(bg_url);
-      // Update iframe to display Bible Gateway texts
-      document.getElementById('bg_readings').src = bg_url;
     };
     
     window.onload = function() {
@@ -76,7 +80,6 @@ layout: default
             let day = dateAsObject.getDOY();
             console.log(`Day selected: ${day}`)
             updateDom(day, data);
-            console.log(day)
         }
       });
     }
