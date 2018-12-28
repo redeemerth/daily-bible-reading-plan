@@ -3,15 +3,15 @@ layout: default
 ---
   <main class = "mdl-layout__content mdl-color-text--primary">
     <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+      <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--3-col-phone">
         <p class="mdl-color-text--grey-600">Or choose a different reading date to load:</p>
         <p class="mdl-color-text--grey-600">Date: <input type="text" id="datepicker"></p>
       </div>
-      <div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+      <div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--3-col-phone">
         <h4 class="mdl-layout__title" id="plan_description" style="text-align: center">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}</h4>
         <h6 class="mdl-layout__headline" id="readings" style="text-align: center"></h6>
       </div>
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+      <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--3-col-phone">
         <div class="mdl-card mdl-shadow--3dp">
           <div class="mdl-card__supporting-text">
             <h4 id="audio_description">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.audio_description}}</h4>
@@ -21,7 +21,7 @@ layout: default
           </video>
         </div>
       </div>
-      <div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+      <div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--3-col-phone">
           <div style="height: 600px" class="mdl-card mdl-shadow--3dp">
             <iframe id="bg_readings" style="height: 100%"></iframe>
           </div>
