@@ -1,84 +1,91 @@
 ---
 layout: default
 ---
-<div class="page-content">
-  <div class="mdl-grid">
-    <div class="mdl-card mdl-cell mdl-cell--6-col" >
-      <h4>ESV Audio (No Commentary)</h4>
-      <p>*********Testing***********</p>
-      <p>{% assign day = site.data.test["0"] %}{{day.title}}Test2</p>
-      <div class="mdl-card__supporting-text">
-        <video controls="" autoplay="false" name="media"><source src="http://static1.squarespace.com/static/520fcad6e4b0717200274c82/t/5c1ac9d24ae237c70a5ed39b" type="audio/mp3"></video>
+  <main class = "mdl-layout__content">  
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
       </div>
+      <div class="mdl-cell mdl-cell--10-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <h4 id="plan_description" style="text-align: center">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}</h4>
+      </div>
+      <div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <p>Date: <input type="text" id="datepicker"></p>
+      </div>
+      <div class="mdl-cell mdl-cell--10-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+          <h4 id="readings" style="text-align: center"></h4>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--3dp">
+          <div class="mdl-card__supporting-text">
+            <h4 id="audio_description">{% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.audio_description}}</h4>
+          </div>
+          <video height="25" controls="" autoplay="false" name="media">
+              <source id="audio_url" type="audio/mp3">
+          </video>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+          <div style="height: 600px" class="mdl-card mdl-shadow--3dp">
+            <iframe id="bg_readings" style="height: 100%"></iframe>
+          </div>
+        </div>
     </div>
-    <div class="mdl-card mdl-cell mdl-cell--6-col">
-      <h4>NLT Audio (With Commentary)</h4>
-      <div class="mdl-card__supporting-text">
-        <video controls="" autoplay="false" name="media"><source src="http://audio.oneyearbibleonline.com/tomdooley/1221.mp3" type="audio/mp3"></video>
-      </div>
-    </div>
+  </main>
+  <script type="text/javascript">
 
+    Date.prototype.isLeapYear = function() {
+      var year = this.getFullYear();
+      if((year & 3) != 0) return false;
+      return ((year % 100) != 0 || (year % 400) == 0);
+    };
 
+    // Get Day of Year
+    Date.prototype.getDOY = function() {
+      var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+      var mn = this.getMonth();
+      var dn = this.getDate();
+      var dayOfYear = dayCount[mn] + dn;
+      if(mn > 1 && this.isLeapYear()) dayOfYear++;
+      return dayOfYear;
+    };
 
-
-    {% else %}
-
-    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--12-col-phone">
-      <div class="mdl-card__title" {% if post.image %} style="background: url('{{ post.image }}') center/cover;" {% endif %}>
-        <h2 class="mdl-card__title-text">{{ post.title }}</h2>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <span>{{ post.date | date: "%b %-d, %Y" }}</span>
-        <p>{{ post.excerpt }}</p>
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{ post.url | prepend: site.baseurl }}">Read More</a>
-      </div>
-      <div class="mdl-card__menu">
-        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="post-{{ post.id }}">
-          <i class="material-icons">share</i>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="post-{{ post.id }}">
-          <li><a href="https://www.facebook.com/dialog/share?app_id={{site.facebook_app_id}}&display=page&href={{ post.url | prepend: site.baseurl }}&redirect_uri={{ site.baseurl }}" class="mdl-menu__item">Facebook</a></li>
-          <li><a href="https://twitter.com/share?url={{ post.url | prepend: site.baseurl }}&text={{ post.title }}&via={{ site.twitter_username }}" class="mdl-menu__item">Twitter</a></li>
-          <li><a href="https://plus.google.com/share?url={{ post.url | prepend: site.baseurl }}" class="mdl-menu__item">Google+</a></li>
-        </ul>
-      </div>
-    </div>
-    {% endif %}
-    {% endfor %}
-
-  {% else %}
-
-    {% for post in site.posts %}
-
-    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-desktop mdl-cell--4-col-tablet  mdl-cell--12-col-phone">
-      <div class="mdl-card__title" {% if post.image %} style="background: url('{{ post.image }}') center/cover;" {% endif %}>
-        <h2 class="mdl-card__title-text">{{ post.title }}</h2>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <span>{{ post.date | date: "%b %-d, %Y" }}</span>
-        <p>{{ post.excerpt }}</p>
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{ post.url | prepend: site.baseurl }}">
-          Read More
-        </a>
-      </div>
-      <div class="mdl-card__menu">
-        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" id="post-{{ post.id }}">
-          <i class="material-icons">share</i>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="post-{{ post.id }}">
-          <li><a href="https://www.facebook.com/dialog/share?app_id={{site.facebook_app_id}}&display=page&href={{ post.url | prepend: site.baseurl }}&redirect_uri={{ site.baseurl }}" class="mdl-menu__item">Facebook</a></li>
-          <li><a href="https://twitter.com/share?url={{ post.url | prepend: site.baseurl }}&text={{ post.title }}&via={{ site.twitter_username }}" class="mdl-menu__item">Twitter</a></li>
-          <li><a href="https://plus.google.com/share?url={{ post.url | prepend: site.baseurl }}" class="mdl-menu__item">Google+</a></li>
-        </ul>
-      </div>
-    </div>
-
-    {% endfor %}
-
-  {% endif %}
-  </div>
-</div>
+    // Retrieve variables from file and update DOM
+    updateDom = function(day) {
+      // Get main json from file; convert from Ruby hash to json object
+      let data = {{site.data.main | jsonify}}
+      // Get data that corresponds to current value of day
+      let day_reading_data = data.days[day];
+      // Get url part that corresponds to current value of day
+      let url = data.plans.oyb_nlt.url;
+      // Create complete URL
+      url = url.replace("{var1}", day_reading_data["oyb"]["audio"]["nlt"]);
+      // Update div with src and url value
+      document.getElementById('audio_url').src = url;
+      // Get list of Scriptures that corresponds to current value of day
+      let readings = day_reading_data["oyb"]["readings"];
+      // Update h4 element with Scripture readings
+      document.getElementById('readings').innerHTML = readings.join(', ');
+      // Build Bible Gateway URL
+      let base_url = 'http://www.biblegateway.com/quicksearch/?quicksearch={var1}&version=NLT';
+      let bg_url = base_url.replace('{var1}', readings.join(';'))
+      // encode URL
+      bg_url = encodeURI(bg_url);
+      // Update iframe to display Bible Gateway texts
+      document.getElementById('bg_readings').src = bg_url;
+    };
+    
+    window.onload = function() {
+      // Get day
+      let day = new Date().getDOY();
+      console.log(day);
+      updateDom(day);
+      $("#datepicker").datepicker({
+          onSelect: function(dateText, inst) { 
+            var dateAsString = dateText; //the first parameter of this function
+            var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
+            console.log(dateAsString)
+            let day = new Date().getDOY(); console.log(dateAsObject)
+        }
+      });
+    }
+  </script>
