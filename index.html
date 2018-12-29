@@ -17,27 +17,23 @@ layout: default
               {% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.audio_description}}
             </h4>
           </div>
-          <audio id="audio_refresh" width='90%' height='25px' controls="true" autoplay="true" name="media">
+          <audio id="audio_refresh" width='90%' height='25px' autoplay="false" controls="true" name="media">
               <source id="audio_url" type="audio/mp3">
           </audio>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--hide-phone">
-          <div class="mdl-card mdl-shadow--3dp">
-            <div class="mdl-card__supporting-text">
-              <h4>Bible Passages</h4>
-            </div>
-            <object id="bg_readings_desktop" type="text/html" width="100%" height="250px">
+          <div class="mdl-card mdl-shadow--3dp object-container">
+            <object id="bg_readings_desktop" type="text/html" class="object-embed">
             </object>
           </div>
-      </div>
       </div>
       <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--hide-desktop mdl-cell--hide-tablet">
           <div class="mdl-card mdl-shadow--3dp">
             <div class="mdl-card__supporting-text">
               <h4>Bible Passages</h4>
             </div>
-            <object id="bg_readings_phone" width="100%" height="10000px">
+            <object id="bg_readings_phone" type="text/html" width="100%" height="10000px">
             </object>
           </div>
       </div>
@@ -61,7 +57,7 @@ layout: default
 
       // Get list of Scriptures that corresponds to current value of day
       let readings = day_reading_data["oyb"]["readings"];
-      // Update h4 element with Scripture readings
+      // Update UI
       document.getElementById('readings').innerHTML = `Day ${day}: ${readings.join(', ')}`;
 
       // Build Bible Gateway URL
@@ -71,8 +67,7 @@ layout: default
       // encode URL
       //bg_url = encodeURI(bg_url);
       console.log(`url ${bg_url}`)
-      // Update iframe to display Bible Gateway texts
-      //let temp = "https://www.biblegateway.com/passage/?search=zechariah+14%3A1-21%3Brevelation+20%3A1-15%3Bpsalm+148%3A1-14%3Bproverbs+31%3A8-9&version=NLT&interface=print"
+      // update UI
       document.getElementById('bg_readings_desktop').data = bg_url;
       document.getElementById('bg_readings_phone').data = bg_url;
 
@@ -81,12 +76,12 @@ layout: default
       // Create complete URL
       url = url.replace("{var1}", day_reading_data["oyb"]["audio"]["nlt"]);
       console.log(`Daily reading url: ${url}`)
-      // Update div with src and url value
+      // Update UI
       document.getElementById('audio_url').src = url;
       document.getElementById('audio_refresh').load();
     };
     
-    window.onload = function() {
+    $( document ).ready(function() {
       // Get main json from file; convert from Ruby hash to json object
       let data = {{site.data.main | jsonify}}
       // Get day
@@ -103,5 +98,5 @@ layout: default
         console.log(`Day selected: ${myDate}`)
         populateReadingByDay(myDate.getDOY(), data);
       });
-    }
+    });
   </script>
