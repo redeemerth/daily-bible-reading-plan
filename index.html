@@ -79,12 +79,7 @@ layout: default
       // Update UI
       document.getElementById('audio_url').src = url;
       document.getElementById('audio_refresh').load();
-
-      $.get( bg_url,  function( data ) {
-        alert( "Load was performed." );
-        console.log(data)
-      });
-
+      document.getElementById('audio_refresh').play();
     };
     
     $( document ).ready(function() {
