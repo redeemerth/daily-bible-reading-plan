@@ -22,16 +22,25 @@ layout: default
           </audio>
         </div>
       </div>
-      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-          <div class="mdl-card mdl-shadow--3dp" style="height:300px">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--hide-phone">
+          <div class="mdl-card mdl-shadow--3dp">
             <div class="mdl-card__supporting-text">
               <h4>Bible Passages</h4>
             </div>
-            <object id="bg_readings_object" width="100%" height="100%" style="overflow-y: scroll;-webkit-overflow-scrolling: touch">
+            <object id="bg_readings_desktop" width="100%" height="300px">
             </object>
           </div>
       </div>
-    </div>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--hide-desktop mdl-cell--hide-tablet">
+          <div class="mdl-card mdl-shadow--3dp">
+            <div class="mdl-card__supporting-text">
+              <h4>Bible Passages</h4>
+            </div>
+            <object id="bg_readings_phone" width="100%" style="min-height:2000px">
+            </object>
+          </div>
+      </div>
   </main>
   <script type="text/javascript">
 
@@ -64,7 +73,8 @@ layout: default
       console.log(`url ${bg_url}`)
       // Update iframe to display Bible Gateway texts
       //let temp = "https://www.biblegateway.com/passage/?search=zechariah+14%3A1-21%3Brevelation+20%3A1-15%3Bpsalm+148%3A1-14%3Bproverbs+31%3A8-9&version=NLT&interface=print"
-      document.getElementById('bg_readings_object').data = bg_url;
+      document.getElementById('bg_readings_desktop').data = bg_url;
+      document.getElementById('bg_readings_phone').data = bg_url;
 
       // Get url part that corresponds to current value of day
       let url = data.plans.oyb_nlt.url;
