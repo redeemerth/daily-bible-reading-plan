@@ -33,7 +33,7 @@ layout: default
             <div class="mdl-card__supporting-text">
               <h4>Bible Passages</h4>
             </div>
-            <object id="bg_readings_phone" type="text/html" width="100%" height="10000px">
+            <object id="bg_readings_phone" type="text/html" width="100%" height="15000px">
             </object>
           </div>
       </div>
@@ -79,6 +79,12 @@ layout: default
       // Update UI
       document.getElementById('audio_url').src = url;
       document.getElementById('audio_refresh').load();
+
+      $.get( bg_url,  function( data ) {
+        alert( "Load was performed." );
+        console.log(data)
+      });
+
     };
     
     $( document ).ready(function() {
