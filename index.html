@@ -24,8 +24,7 @@ layout: default
       </div>
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--hide-phone">
           <div class="mdl-card mdl-shadow--3dp object-container">
-            <object id="bg_readings_desktop" type="text/html" class="object-embed">
-            </object>
+            <iframe class="object-embed" id="bg_readings_desktop"></iframe>
           </div>
       </div>
       <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--hide-desktop mdl-cell--hide-tablet">
@@ -33,13 +32,13 @@ layout: default
             <div class="mdl-card__supporting-text">
               <h4>Bible Passages</h4>
             </div>
-            <object id="bg_readings_phone" type="text/html" width="100%" height="20000px">
+            <iframe id="bg_readings_phone" width="100%" height="20000px"></iframe>
             </object>
           </div>
       </div>
   </main>
-  <script type="text/javascript">
 
+  <script type="text/javascript">
     // Get Day of Year
     Date.prototype.getDOY = function() {
       var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
@@ -68,8 +67,9 @@ layout: default
       //bg_url = encodeURI(bg_url);
       console.log(`url ${bg_url}`)
       // update UI
-      document.getElementById('bg_readings_desktop').data = bg_url;
-      document.getElementById('bg_readings_phone').data = bg_url;
+      
+      document.getElementById('bg_readings_desktop').src = bg_url;
+      document.getElementById('bg_readings_phone').src = bg_url;
 
       // Get url part that corresponds to current value of day
       let url = data.plans.oyb_nlt.url;
