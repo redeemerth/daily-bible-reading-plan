@@ -1,7 +1,6 @@
 ---
 layout: default
 ---
-  <main class = "mdl-layout__content mdl-color-text--primary">
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone" style="text-align: center">
         <h4 class="mdl-layout__title" id="plan_description"">
@@ -31,16 +30,7 @@ layout: default
             </div>
           </div>
       </div>
-      <footer class="mdl-mini-footer" style="width: 100%">
-          <div class="mdl-logo">{{ site.title }}</div>
-          <div class="mdl-mini-footer--bottom-section"></div>
-            <ul class="mdl-mini-footer--link-list">
-              <li><a href="https://thebibleproject.com/">The Bible Project</a></li>
-              <li><a href="http://oneyearbibleonline.com/daily-oyb/">One Year Bible Online</a></li>
-            </ul>
-          </div>
-        </footer>
-  </main>
+    </div>
 
   <script type="text/javascript">
     // Get Day of Year
@@ -83,8 +73,6 @@ layout: default
         dataType: 'text',
         success: function(data) {
           var $page = $("<div>").html(data)
-          console.log($($page).children())
-          console.log($($page).find("div.passage-bible").find("div.passage-text"))
           var passage_bible = $($page).find("div.passage-bible").find("div.passage-text")
 
           $(passage_bible).find('h1').replaceWith(function() {
@@ -96,6 +84,12 @@ layout: default
 
           // Update UI
           $( "#replace_bible_text" ).html(passage_bible);
+          
+          // Replace relative URL with absolute to point to BG
+          $( "#replace_bible_text a[href^='/versions/'" ).each(function(){
+            var href = $(this).attr("href")
+            $(this).attr("href", `https://www.biblegateway.com${href}`);
+          });
         }
       });
     };
