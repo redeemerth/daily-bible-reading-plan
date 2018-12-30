@@ -77,6 +77,14 @@ layout: default
           console.log($($page).children())
           console.log($($page).find("div.passage-bible").find("div.passage-text"))
           var passage_bible = $($page).find("div.passage-bible").find("div.passage-text")
+
+          $(passage_bible).find('h1').replaceWith(function() {
+                return '<h4>' + $(this).text() + '</h4>';
+          });
+          $(passage_bible).find('h3').replaceWith(function() {
+                return '<h5>' + $(this).text() + '</h5>';
+          });
+
           // Update UI
           $( "#replace_bible_text" ).html(passage_bible);
         }
