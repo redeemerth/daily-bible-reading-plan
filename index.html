@@ -22,18 +22,13 @@ layout: default
           </audio>
         </div>
       </div>
-      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--hide-phone">
-          <div class="mdl-card mdl-shadow--3dp object-container">
-            <iframe class="object-embed" id="bg_readings_desktop"></iframe>
-          </div>
-      </div>
-      <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--hide-desktop mdl-cell--hide-tablet">
-          <div class="mdl-card mdl-shadow--3dp">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+          <div id="bg_readings_desktop" class="mdl-card mdl-shadow--3dp mdl-color-text--black">
             <div class="mdl-card__supporting-text">
-              <h4>Bible Passages</h4>
+                <h4>Bible Passages</h4>
             </div>
-            <iframe id="bg_readings_phone" width="100%" height="20000px"></iframe>
-            </object>
+            <div id="replace_bible_text" style="margin-left: 3%; margin-right: 3%; margin-top: -3%">
+            </div>
           </div>
       </div>
   </main>
@@ -59,18 +54,6 @@ layout: default
       // Update UI
       document.getElementById('readings').innerHTML = `Day ${day}: ${readings.join(', ')}`;
 
-      // Build Bible Gateway URL
-      let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
-      let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
-
-      // encode URL
-      //bg_url = encodeURI(bg_url);
-      console.log(`url ${bg_url}`)
-      // update UI
-      
-      document.getElementById('bg_readings_desktop').src = bg_url;
-      document.getElementById('bg_readings_phone').src = bg_url;
-
       // Get url part that corresponds to current value of day
       let url = data.plans.oyb_nlt.url;
       // Create complete URL
@@ -79,7 +62,25 @@ layout: default
       // Update UI
       document.getElementById('audio_url').src = url;
       document.getElementById('audio_refresh').load();
-      document.getElementById('audio_refresh').play();
+
+      // Retrieve BG URL
+      // Build Bible Gateway URL
+      let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
+      let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
+      // Pass through CORS server in order to work with response html
+      let cors = "https://cors-anywhere.herokuapp.com/"
+      $.ajax({
+        url: `${cors}${bg_url}`,
+        dataType: 'text',
+        success: function(data) {
+          var $page = $("<div>").html(data)
+          console.log($($page).children())
+          console.log($($page).find("div.passage-bible").find("div.passage-text"))
+          var passage_bible = $($page).find("div.passage-bible").find("div.passage-text")
+          // Update UI
+          $( "#replace_bible_text" ).html(passage_bible);
+        }
+      });
     };
     
     $( document ).ready(function() {
