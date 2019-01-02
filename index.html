@@ -60,7 +60,7 @@ layout: default
       if (document.hidden){
         sessionStorage.audioTime = player.currentTime;
       }else{
-        player.play();  
+        player.play();
         player.currentTime = sessionStorage.audioTime;
       }
     }
@@ -83,8 +83,6 @@ layout: default
       console.log(`Daily reading url: ${url}`)
       // Update UI
       document.getElementById('audio_url').src = url;
-      document.getElementById('audio_refresh').load();
-
       // Retrieve BG URL
       // Build Bible Gateway URL
       let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
@@ -127,7 +125,11 @@ layout: default
       // Get day
       let day = new Date().getDOY();
       console.log(day);
+      // Add data for today
       populateReadingByDay(day, data);
+      // load time from sessionStorage if available
+      document.getElementById('audio_refresh').load();
+      document.getElementById('audio_refresh').currentTime = sessionStorage.audioTime;
 
       document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
@@ -139,6 +141,7 @@ layout: default
         var myDate = new Date(`${month}/${day}/${year}`);
         console.log(`Day selected: ${myDate}`)
         populateReadingByDay(myDate.getDOY(), data);
+        document.getElementById('audio_refresh').load();
       });
     });
   </script>
