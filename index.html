@@ -54,21 +54,16 @@ layout: default
       return dayOfYear;
     };
 
-    getHiddenProp = function() {
-      var prefixes = ['webkit','moz','ms','o'];
-      
-      // if 'hidden' is natively supported just return it
-      if ('hidden' in document) return 'hidden';
-      
-      // otherwise loop over all the known prefixes until we find one
-      for (var i = 0; i < prefixes.length; i++){
-          if ((prefixes[i] + 'Hidden') in document) 
-              return prefixes[i] + 'Hidden';
+    // Manage audio playback when mobile browser is minimized
+    handleVisibilityChange = function() {
+      var player = document.getElementById('audio_refresh')
+      if (document.hidden){
+        sessionStorage.audioTime = player.currentTime;
+      }else{
+        player.play();  
+        player.currentTime = sessionStorage.audioTime;
       }
-
-      // otherwise it's not supported
-      return null;
-    }  
+    }
 
     // Retrieve variables from file and update DOM
     populateReadingByDay = function(day, data) {
@@ -134,29 +129,7 @@ layout: default
       console.log(day);
       populateReadingByDay(day, data);
 
-      window.addEventListener("load", function vidDemo() {
-        sessionStorage.initialPlay = false;
-        var vidElem = document.getElementById("audio_refresh");
-
-        var visProp = getHiddenProp();
-        if (visProp) {
-            vidElem.addEventListener("play", function() {
-              sessionStorage.initialPlay = true;
-            });
-
-            var evtName = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
-            document.addEventListener(evtName, startStopVideo);
-        }
-
-        function startStopVideo() {
-            if (document[visProp]) {
-              vidElem.pause();
-            }
-            else if (vidElem.paused && sessionStorage.initialPlay == "true") {
-              vidElem.play();
-            }
-        }
-      });
+      document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
       $("input").on("change", function () {
         var str = $(this).val()
