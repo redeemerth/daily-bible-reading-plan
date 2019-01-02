@@ -5,7 +5,7 @@ main_dict = {}
 main_dict['days'] = {}
 main_dict['plans'] = {
 'oyb_nlt': {
-    'url': 'http://audio.oneyearbibleonline.com/tomdooley/var1.mp3',
+    'url': 'http://audio.oneyearbibleonline.com/tomdooley/{var1}.mp3',
     'plan_description': 'The One Year® Bible',
     'audio_description': 'NLT Audio (With Commentary)'
    }
@@ -19,14 +19,14 @@ for i in range(1, 366, 1):
 # Row example:  1, 0101
 #               2, 0102 
 
-reader = csv.reader(open('output/oneyearbible_urls.csv', 'r'))
+reader = csv.reader(open('input/oneyearbible_urls.csv', 'r'))
 for row in reader:
     if row[0] in main_dict['days']:
         key = row[0]
         value = row[1]
         main_dict['days'][key]['oyb']['audio']['nlt'] = value
 
-reader = csv.reader(open('output/oyb_daily_reading_texts.csv', 'r'))
+reader = csv.reader(open('input/oyb_daily_reading_texts.csv', 'r'))
 for row in reader:
     if row[0] in main_dict['days']:
         key = row[0]

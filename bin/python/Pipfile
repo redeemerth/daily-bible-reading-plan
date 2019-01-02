@@ -1,0 +1,9 @@
+[requires]
+python_full_version = "3.6.6"
+
+[packages]
+requests = "*"
+beautifulsoup4 = "*"
+selenium = "*"
+six = "*"
+splinter = {extras = ["zope.testbrowser"],version = "*"}
