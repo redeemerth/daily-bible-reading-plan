@@ -11,16 +11,28 @@ layout: default
       </div>
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp">
-          <div class="mdl-card__supporting-text">
-            <h4 id="audio_description">
+          <div class="mdl-card__supporting-text center">
+            <h4 id="audio_description" class="center">
               {% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.audio_description}}
             </h4>
           </div>
-          <audio id="audio_refresh" width='90%' height='25px' autoplay="true" controls="true" name="media">
+          <audio id="audio_refresh" controls="true" name="media" class="center">
               <source id="audio_url" type="audio/mp3">
           </audio>
         </div>
       </div>
+      <!--
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--3dp">
+          <div class="mdl-card__supporting-text">
+            <h4 id="audio_description">
+              The Bible Project, related videos
+            </h4>
+          </div>
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=vid_id1,vid_id2,vid_id3" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      -->
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
           <div id="bg_readings_desktop" class="mdl-card mdl-shadow--3dp mdl-color-text--black">
             <div class="mdl-card__supporting-text">
@@ -41,6 +53,11 @@ layout: default
       var dayOfYear = dayCount[mn] + dn;
       return dayOfYear;
     };
+
+    // Manage audio playback when mobile browser is minimized
+    handleVisibilityChange = function() {
+      document.getElementById('audio_refresh').play();
+    }
 
     // Retrieve variables from file and update DOM
     populateReadingByDay = function(day, data) {
@@ -68,6 +85,7 @@ layout: default
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
       // Pass through CORS server in order to work with response html
       let cors = "https://cors-anywhere.herokuapp.com/"
+      
       $.ajax({
         url: `${cors}${bg_url}`,
         dataType: 'text',
@@ -77,10 +95,10 @@ layout: default
 
           // Reduce heading sizes
           $(passage_bible).find('h1').replaceWith(function() {
-                return '<h4>' + $(this).text() + '</h4>';
+            return '<h4>' + $(this).text() + '</h4>';
           });
           $(passage_bible).find('h3').replaceWith(function() {
-                return '<h5>' + $(this).text() + '</h5>';
+            return '<h5>' + $(this).text() + '</h5>';
           });
 
           // Ensure relative links are absolute to point to BG.
@@ -98,10 +116,14 @@ layout: default
     $( document ).ready(function() {
       // Get main json from file; convert from Ruby hash to json object
       let data = {{site.data.main | jsonify}}
+      // Get Bible Project data
+      let bp_videos = ""
       // Get day
       let day = new Date().getDOY();
       console.log(day);
       populateReadingByDay(day, data);
+
+      document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
       $("input").on("change", function () {
         var str = $(this).val()

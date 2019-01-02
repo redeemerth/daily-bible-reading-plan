@@ -4,6 +4,7 @@
 
 .mdl-card{
   width: 100%;
+  min-height: 125px;
 }
 
 .mdl-grid{
@@ -13,4 +14,9 @@
 audio{
   margin-left: 5%;
   margin-right: 5%;
+}
+
+.center{
+  margin: 0 auto; 
+  display: table;
 }
