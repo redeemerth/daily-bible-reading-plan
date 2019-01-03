@@ -105,7 +105,7 @@ layout: default
           });
 
           // Ensure relative links are absolute to point to BG.
-          $( passage_bible ).find( "a[href^='/versions/']" ).each(function(){
+          $( passage_bible ).find( "a[href^='/versions/'], a[href^='/passage/']" ).each(function(){
             var href = $(this).attr("href")
             $(this).attr("href", `https://www.biblegateway.com${href}`);
           });
