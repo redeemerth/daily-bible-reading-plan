@@ -25,10 +25,10 @@ layout: default
         <div class="mdl-card mdl-shadow--3dp">
           <div class="mdl-card__supporting-text">
             <h4 id="audio_description">
-              Related Videos (Coming Soon)
+              Related Videos
             </h4>
           </div>
-          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=vid_id1,vid_id2,vid_id3" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe id="bp_playlist" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
@@ -53,7 +53,9 @@ layout: default
     };
 
     // Retrieve variables from file and update DOM
-    populateReadingByDay = function(day, data) {
+    populateReadingByDay = function(day, data, bp_videos) {
+      let url = ""
+
       // Get data that corresponds to current value of day
       console.log(`Day is ${day}`)
       let day_reading_data = data.days[day];
@@ -63,8 +65,20 @@ layout: default
       // Update UI
       document.getElementById('readings').innerHTML = `Day ${day}: ${readings.join(', ')}`;
 
+      // Build Bible Project ad hoc playlist URL
+      var playlistIdsArr = [];
+      var iterReadings = readings[Symbol.iterator]();
+      for (let reading of iterReadings) {
+        var book = reading.split(' ')[0];
+        console.log(book);
+        playlistIdsArr = playlistIdsArr.concat(bp_videos.books[book])
+      }
+      var playlistIds = playlistIdsArr.join(',')
+      url = `https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=${playlistIds}`
+      document.getElementById('bp_playlist').src = url;
+
       // Get url part that corresponds to current value of day
-      let url = data.plans.oyb_nlt.url;
+      url = data.plans.oyb_nlt.url;
       // Create complete URL
       url = url.replace("{var1}", day_reading_data["oyb"]["audio"]["nlt"]);
       console.log(`Daily reading url: ${url}`)
@@ -106,13 +120,13 @@ layout: default
     $( document ).ready(function() {
       // Get main json from file; convert from Ruby hash to json object
       let data = {{site.data.main | jsonify}}
-      // Get Bible Project data
-      let bp_videos = ""
+      // Get Bible Project metadata
+      let bp_videos = {{site.data.bibleproject_lookup_by_book | jsonify}}
       // Get day
       let day = new Date().getDOY();
       console.log(day);
       // Add data for today
-      populateReadingByDay(day, data);
+      populateReadingByDay(day, data, bp_videos);
 
       $("input").on("change", function () {
         var str = $(this).val()
@@ -121,7 +135,7 @@ layout: default
         var day = str.substring(8, 10);
         var myDate = new Date(`${month}/${day}/${year}`);
         console.log(`Day selected: ${myDate}`)
-        populateReadingByDay(myDate.getDOY(), data);
+        populateReadingByDay(myDate.getDOY(), data, bp_videos);
         document.getElementById('audio_refresh').play()
       });
     });
