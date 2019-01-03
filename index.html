@@ -121,6 +121,7 @@ layout: default
         var myDate = new Date(`${month}/${day}/${year}`);
         console.log(`Day selected: ${myDate}`)
         populateReadingByDay(myDate.getDOY(), data);
+        document.getElementById('audio_refresh').play()
       });
     });
   </script>
