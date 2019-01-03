@@ -90,10 +90,11 @@ layout: default
       let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
       // Pass through CORS server in order to work with response html
-      let cors = "https://cors-anywhere.herokuapp.com/"
+      //let cors = "https://cors-anywhere.herokuapp.com/"
+      let cors = "https://more-love.herokuapp.com/"
             
       $.ajax({
-        url: `${cors}${bg_url}`,
+        url: `${cors}?url=${bg_url}`,
         dataType: 'text',
         success: function(data) {
           var $page = $("<div>").html(data)
