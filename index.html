@@ -21,7 +21,6 @@ layout: default
           </video>
         </div>
       </div>
-
       <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp">
           <div class="mdl-card__supporting-text">
@@ -32,7 +31,6 @@ layout: default
           <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=vid_id1,vid_id2,vid_id3" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
-
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
           <div id="bg_readings_desktop" class="mdl-card mdl-shadow--3dp mdl-color-text--black">
             <div class="mdl-card__supporting-text">
@@ -53,17 +51,6 @@ layout: default
       var dayOfYear = dayCount[mn] + dn;
       return dayOfYear;
     };
-
-    // Manage audio playback when mobile browser is minimized
-    handleVisibilityChange = function() {
-      var player = document.getElementById('audio_refresh')
-      if (document.hidden){
-        sessionStorage.audioTime = player.currentTime;
-      }else{
-        player.play();
-        player.currentTime = sessionStorage.audioTime;
-      }
-    }
 
     // Retrieve variables from file and update DOM
     populateReadingByDay = function(day, data) {
@@ -125,8 +112,6 @@ layout: default
       console.log(day);
       // Add data for today
       populateReadingByDay(day, data);
-
-      document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
       $("input").on("change", function () {
         var str = $(this).val()
