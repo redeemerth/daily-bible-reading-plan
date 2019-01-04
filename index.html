@@ -12,11 +12,11 @@ layout: default
       <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp">
           <div class="mdl-card__supporting-text center">
-            <h4 id="audio_description" class="center">
+            <h4 id="audio_description">
               {% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.audio_description}}
             </h4>
           </div>
-          <video id="audio_refresh" controls="true" preload="metadata" name="media" class="center">
+          <video id="audio_refresh" playsinline controls preload="metadata" name="media">
               <source id="audio_url" type="audio/mp3">
           </video>
         </div>
