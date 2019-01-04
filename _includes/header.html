@@ -1,6 +1,13 @@
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
       <!-- Title -->
-      <span class="mdl-layout-title" style="margin-left: -2%">{{ site.title }}</span>
+      <a class="mdl-navigation__link" href="{{ site.baseurl }}"><span class="mdl-layout-title">{{ site.title }}</span></a>
+    </div>
   </header>
-
+  <div class="mdl-layout__drawer mdl-color--white">
+      <span class="mdl-layout-title">Menu</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="{{ site.baseurl }}">Home</a>
+      </nav>
+  </div>
+  
