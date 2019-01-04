@@ -85,12 +85,11 @@ layout: default
       // Update UI
       document.getElementById('audio_url').src = url;
       document.getElementById('audio_refresh').load()
-      // Retrieve BG URL
-      // Build Bible Gateway URL
+      
+      // Build Bible Gateway URL and retrieve reading text
       let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
-      // Pass through CORS server in order to work with response html
-      //let cors = "https://cors-anywhere.herokuapp.com/"
+      // Pass through CORS server to add required headers for cross origin resource
       let cors = "https://more-love.herokuapp.com/"
             
       $.ajax({
@@ -113,7 +112,7 @@ layout: default
 
           // Finally, update UI
           $( "#replace_bible_text" ).html(passage_bible);
-          return false;
+          return false; // prevents auto jump to top of page when ajax completes
         }
       });
     };
