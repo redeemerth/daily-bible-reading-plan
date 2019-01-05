@@ -14,85 +14,14 @@ layout: default
             </div>
           </div>
       </div>
-      <!-- How to Read the Bible -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+      {% for playlist in site.data.bibleproject_playlist_ids %}
+      <!-- {{playlist.PLAYLIST_TITLE}} -->
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
           <div class="mdl-card__supporting-text">
-            <h4>How to Read the Bible</h4>
+            <h4>{{playlist.PLAYLIST_TITLE}}</h4>
           </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNedn4FbBMMtOlGN-BPLQ54IH" frameborder="0" allowfullscreen></iframe>
+          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list={{playlist.PLAYLIST_ID}}" frameborder="0" allowfullscreen></iframe>
         </div>
       </div>
-      <!-- Read Scripture: The Old Testament -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-              <h4>The Old Testament</h4>
-          </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNeeVFodkI9J_WEATHQCwRZ0u" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-      <!-- Read Scripture: The New Testament -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-            <h4>The New Testament</h4>
-          </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNecanpQqdixWAm3zHdhY2kPR" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-      <!-- The Torah Series -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-            <h4>The Torah Series</h4>
-          </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNee8aedW_5aCpnzkxnV7VQ3K" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-      <!-- The Wisdom Series -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-            <h4>The Wisdom Series</h4>
-          </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNeeKPNIy7YXjO3MGD8h8ifhr" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-      <!-- Luke-Acts Miniseries -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-            <h4>Luke-Acts Miniseries</h4>
-          </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNec6O3ZOZzAMb2WW2abJwzZ-" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-      <!-- Biblical Themes -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-            <h4>Biblical Themes</h4>
-          </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNec-HZjVHooeb4BSDSeHhEoh" frameborder="0" allowfullscreen></iframe>            
-        </div>
-      </div>
-      <!-- Word Studies -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-            <h4>Word Studies</h4>
-          </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNeclOdfwWBawnNT5ZkGFHxBf" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-      <!-- Studio News -->
-      <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-            <h4>Studio News</h4>
-          </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"  src="https://www.youtube.com/embed/?listType=playlist&list=PLH0Szn1yYNefWkHh-aIZNib4EfiBwXAL4" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
+      {% endfor %}
