@@ -1,7 +1,12 @@
 # Site settings
-title: Daily Bible Reading Plan
+title: Daily Bible Podcast
 email: your-email@domain.com
 description: > # this means to ignore newlines until "baseurl:"
+  The Daily Bible Podcast enables you easily to hear and read the Bible every day
+  and go through the entire Bible in a year (365 days). A new podcast and reading is
+  available for every day of the year. In addition, videos related to the reading
+  from The Bible Project are provided each day for you to dig deeper and gain more
+  from your time in the Bible.
 baseurl: "/daily-bible-reading-plan/" # the subpath of your site, e.g. /blog/
 url: "https://redeemerth.github.io/daily-bible-reading-plan" # the base hostname & protocol for your site
 
