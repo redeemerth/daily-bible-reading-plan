@@ -2,6 +2,10 @@
 // Generals styles for material design light elements
 //
 
+.mdl-layout__container {
+  position: relative;
+}
+
 .mdl-card{
   width: 100%;
 }
