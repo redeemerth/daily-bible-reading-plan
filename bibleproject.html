@@ -3,25 +3,33 @@ layout: default
 ---
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-          <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-            <div class="mdl-card__title">
-                <h4 class="mdl-color-text--accent ">Explore the Bible through Visual Storytelling</h4>
-            </div>
-            <div class="mdl-card__supporting-text mdl-color-text--black">
-              <p>
-                <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/">The Bible Project</a> is committed to creating free, compelling, and engaging video content about the Bible. They have developed one or more introductory videos for each of the 66 books of the Bible. They have also developed video series that guide you as a learner of the Bible through, for example, word studies, biblical themes and gaining insight into how to read and understand the Bible. We've made their video series YouTube playlists available here for easy access.
-              </p>
-            </div>
-          </div>
-      </div>
-      {% for playlist in site.data.bibleproject_playlist_ids %}
-      <!-- {{playlist.PLAYLIST_TITLE}} -->
-      <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__supporting-text">
-            <h4>{{playlist.PLAYLIST_TITLE}}</h4>
+          <div class="mdl-card__title">
+              <h4 class="mdl-color-text--accent ">Explore the Bible through Visual Storytelling</h4>
           </div>
-          <iframe width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube.com/embed/?listType=playlist&list={{playlist.PLAYLIST_ID}}" allowfullscreen></iframe>
+          <div class="mdl-card__supporting-text mdl-color-text--black">
+            <p>
+              <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/">The Bible Project</a> is committed to creating free, compelling, and engaging video content about the Bible. They have developed one or more introductory videos for each of the 66 books of the Bible. They have also developed video series that guide you as a learner of the Bible through, for example, word studies, biblical themes and gaining insight into how to read and understand the Bible.
+            </p>
+          </div>
         </div>
       </div>
-      {% endfor %}
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
+          <div class="mdl-card__supporting-text mdl-color-text--black">
+            <h4 class="mdl-color-text--accent">Bible Project Links</h4>
+            <ul>
+              <li>
+                <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/explore/">Explore Bible Project Videos by Category</a>
+              </li>
+              <li>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/blog/">Read The Bible Project Blog</a>
+              </li>
+              <li>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/donate/">See What is Currently Being Developed in The Bible Project Studio and Consider Donating</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
