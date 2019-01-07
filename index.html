@@ -89,6 +89,7 @@ layout: default
       let cors = "https://more-love.herokuapp.com/"
             
       $.ajax({
+        type: 'GET',
         url: `${cors}?url=${bg_url}`,
         dataType: 'text',
         success: function(data) {
