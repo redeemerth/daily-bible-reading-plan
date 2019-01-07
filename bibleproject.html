@@ -4,10 +4,8 @@ layout: default
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
-          <div class="mdl-card__title">
-              <h4 class="mdl-color-text--accent ">Explore the Bible through Visual Storytelling</h4>
-          </div>
           <div class="mdl-card__supporting-text mdl-color-text--black">
+            <h4 class="mdl-color-text--primary ">Explore the Bible through Visual Storytelling</h4>
             <p>
               <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/">The Bible Project</a> is committed to creating free, compelling, and engaging video content about the Bible. They have developed one or more introductory videos for each of the 66 books of the Bible. They have also developed video series that guide you as a learner of the Bible through, for example, word studies, biblical themes and gaining insight into how to read and understand the Bible.
             </p>
@@ -17,19 +15,36 @@ layout: default
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
           <div class="mdl-card__supporting-text mdl-color-text--black">
-            <h4 class="mdl-color-text--accent">Bible Project Links</h4>
+            <h4 class="mdl-color-text--primary">Bible Project Links</h4>
             <ul>
               <li>
-                <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/explore/">Explore Bible Project Videos by Category</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/explore/">Bible Project Videos (Categorized)</a>
               </li>
               <li>
-                  <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/blog/">Read The Bible Project Blog</a>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/blog/">Blog</a>
               </li>
               <li>
-                  <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/donate/">See What is Currently Being Developed in The Bible Project Studio and Consider Donating</a>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/podcasts/">Podcasts</a>
+              </li>
+              <li>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thebibleproject.com/donate/">Donation Page</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+          <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
+            <div class="mdl-card__supporting-text mdl-color-text--black">
+              <h4 class="mdl-color-text--primary">Bible Project YouTube Playlists</h4>
+              <ul>
+                {% for playlist in site.data.bibleproject_playlist_ids %}
+                <li>
+                  <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/playlist?list={{playlist.PLAYLIST_ID}}">{{playlist.PLAYLIST_TITLE}}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
     </div>
