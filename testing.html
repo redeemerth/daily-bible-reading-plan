@@ -1,0 +1,141 @@
+---
+layout: default
+---
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone" style="text-align: center">
+        <h4 class="mdl-layout__title" id="plan_description"">
+          {% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}
+        </h4>
+        <h6 class="mdl-layout__headline" id="readings"></h6>
+        <p>Reading selector: <input type="date" id="datepicker"></p>
+      </div>
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--3dp">
+          <div class="mdl-card__supporting-text center">
+            <h4 id="audio_description">Daily Bible Podcast</h4>
+          </div>
+          <video id="audio_refresh" playsinline controls preload="metadata" name="media">
+              <source id="audio_url" type="audio/mp3">
+          </video>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--3dp">
+          <div class="mdl-card__supporting-text">
+            <h4>Related Videos</h4>
+          </div>
+          <iframe id="bp_playlist" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+          <div id="bg_readings_desktop" class="mdl-card mdl-shadow--3dp mdl-color-text--black">
+            <div class="mdl-card__supporting-text">
+                <h4>Daily Bible Reading</h4>
+            </div>
+            <div id="replace_bible_text" style="margin-left: 3%; margin-right: 3%; margin-top: -3%">
+            </div>
+          </div>
+      </div>
+    </div>
+
+  <script type="text/javascript">
+    // Get Day of Year
+    Date.prototype.getDOY = function() {
+      var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+      var mn = this.getMonth();
+      var dn = this.getDate();
+      var dayOfYear = dayCount[mn] + dn;
+      return dayOfYear;
+    };
+
+    // Retrieve variables from file and update DOM
+    populateReadingByDay = function(day, data, bp_videos) {
+      let url = ""
+
+      // Get data that corresponds to current value of day
+      console.log(`Day is ${day}`)
+      let day_reading_data = data.days[day];
+
+      // Get list of Scriptures that corresponds to current value of day
+      let readings = day_reading_data["oyb"]["readings"];
+      // Update UI
+      document.getElementById('readings').innerHTML = `Day ${day}: ${readings.join(', ')}`;
+
+      // Build Bible Project ad hoc playlist URL
+      var playlistIdsArr = [];
+      var iterReadings = readings[Symbol.iterator]();
+      for (let reading of iterReadings) {
+        var book = reading.split(' ')[0];
+        console.log(book);
+        playlistIdsArr = playlistIdsArr.concat(bp_videos.books[book])
+      }
+      var playlistIds = playlistIdsArr.join(',')
+      url = `https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=${playlistIds}`
+      document.getElementById('bp_playlist').src = url;
+
+      // Get url part that corresponds to current value of day
+      url = data.plans.oyb_nlt.url;
+      // Create complete URL
+      url = url.replace("{var1}", day_reading_data["oyb"]["audio"]["nlt"]);
+      console.log(`Daily reading url: ${url}`)
+      // Update UI
+      document.getElementById('audio_url').src = url;
+      document.getElementById('audio_refresh').load()
+      
+      // Build Bible Gateway URL and retrieve reading text
+      let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
+      let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
+      // Pass through CORS server to add required headers for cross origin resource
+      let cors = "https://more-love.herokuapp.com/req"
+
+      $.ajax({
+        type: 'POST',
+        url: cors,
+        contentType: 'application/json',
+        data: `{'url': ${bg_url}}`,
+        dataType: 'text',
+        success: function(data) {
+          var $page = $("<div>").html(data)
+          var passage_bible = $($page).find("div.passage-bible").find("div.passage-text")
+
+          // Reduce heading sizes
+          $(passage_bible).find('h1, h2, h3, h4, h5').replaceWith(function() {
+            return '<h6>' + $(this).text() + '</h6>';
+          });
+
+          // Ensure relative links are absolute to point to BG.
+          $( passage_bible ).find( "a[href^='/versions/'], a[href^='/passage/']" ).each(function(){
+            var href = $(this).attr("href")
+            $(this).attr("href", `https://www.biblegateway.com${href}`);
+          });
+
+          // Finally, update UI
+          $( "#replace_bible_text" ).html(passage_bible);
+          return false; // prevents auto jump to top of page when ajax completes
+        }
+      });
+    };
+    
+    $( document ).ready(function() {
+      // Get main json from file; convert from Ruby hash to json object
+      let data = {{site.data.main | jsonify}}
+      // Get Bible Project metadata
+      let bp_videos = {{site.data.bibleproject_lookup_by_book | jsonify}}
+      // Get day
+      let day = new Date().getDOY();
+      console.log(day);
+      // Add data for today
+      populateReadingByDay(day, data, bp_videos);
+
+      $("input").on("change", function () {
+        var str = $(this).val()
+        var year = str.substring(0, 4);
+        var month = str.substring(5, 7);
+        var day = str.substring(8, 10);
+        var myDate = new Date(`${month}/${day}/${year}`);
+        console.log(`Day selected: ${myDate}`)
+        populateReadingByDay(myDate.getDOY(), data, bp_videos);
+        document.getElementById('audio_refresh').play()
+      });
+    });
+  </script>
