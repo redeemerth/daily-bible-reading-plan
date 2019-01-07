@@ -33,6 +33,7 @@
   margin-left: -10%;
 }
 
+// This appears to fix unwanted iOS zoom when text is less than 16px
 input, textarea {
   font-size: initial;
 }
