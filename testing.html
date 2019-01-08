@@ -3,7 +3,7 @@ layout: default
 ---
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone" style="text-align: center">
-        <h4 class="mdl-layout__title" id="plan_description"">
+        <h4 class="mdl-layout__title" id="plan_description">
           {% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}
         </h4>
         <h6 class="mdl-layout__headline" id="readings"></h6>
@@ -90,9 +90,9 @@ layout: default
 
       $.ajax({
         type: 'POST',
-        url: cors,
         contentType: 'application/json',
-        data: `{'url': ${bg_url}}`,
+        url: cors,
+        data: `{"url": "${bg_url}"}`,
         dataType: 'text',
         success: function(data) {
           var $page = $("<div>").html(data)
