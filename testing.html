@@ -87,8 +87,8 @@ layout: default
       let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
       // Pass through CORS server to add required headers for cross origin resource
-      let cors = "https://more-love.herokuapp.com/req"
-      //let cors = "http://localhost:3000/req"
+      let cors = "https://more-love.herokuapp.com/reqtesting"
+      //let cors = "http://localhost:3000/reqtesting"
       let page_name = `{{page.name}}`
 
       $.ajax({
