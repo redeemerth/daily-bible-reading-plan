@@ -53,7 +53,7 @@ layout: default
       let url = ""
 
       // Get data that corresponds to current value of day
-      console.log(`Day is ${day}`)
+      console.log(`Selected Day is ${day}`)
       let day_reading_data = data.days[day];
 
       // Get list of Scriptures that corresponds to current value of day
@@ -64,6 +64,7 @@ layout: default
       // Build Bible Project ad hoc playlist URL
       var playlistIdsArr = [];
       var iterReadings = readings[Symbol.iterator]();
+      console.log("Books in today's reading:")
       for (let reading of iterReadings) {
         var book = reading.split(' ')[0];
         console.log(book);
@@ -87,12 +88,14 @@ layout: default
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
       // Pass through CORS server to add required headers for cross origin resource
       let cors = "https://more-love.herokuapp.com/req"
+      //let cors = "http://localhost:3000/req"
+      let page_name = `{{page.name}}`
 
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
         url: cors,
-        data: `{"url": "${bg_url}"}`,
+        data: `{"page": "${page_name}", "day": "${day}", "url": "${bg_url}"}`,
         dataType: 'text',
         success: function(data) {
           var $page = $("<div>").html(data)
