@@ -87,12 +87,13 @@ layout: default
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
       // Pass through CORS server to add required headers for cross origin resource
       let cors = "https://more-love.herokuapp.com/req"
+      let page_name = `{{page.name}}`
 
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
         url: cors,
-        data: `{"url": "${bg_url}"}`,
+        data: `{"page": "${page_name}", "day": "${day}", "url": "${bg_url}"}`,
         dataType: 'text',
         success: function(data) {
           var $page = $("<div>").html(data)
