@@ -89,13 +89,12 @@ layout: default
       // Pass through CORS server to add required headers for cross origin resource
       let cors = "https://more-love.herokuapp.com/reqtesting"
       //let cors = "http://localhost:3000/reqtesting"
-      let page_name = `{{page.name}}`
 
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
         url: cors,
-        data: `{"page": "${page_name}", "day": "${day}", "url": "${bg_url}"}`,
+        data: `{"page": "{{page.name}}", "day": "${day}", "url": "${bg_url}"}`,
         dataType: 'text',
         success: function(data) {
           var $page = $("<div>").html(data)
