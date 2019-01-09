@@ -32,6 +32,7 @@ layout: default
             <div class="mdl-card__supporting-text">
                 <h4>Daily Bible Reading</h4>
             </div>
+            <div id="bg_progress" style="margin: 0 auto;"></div>
             <div id="replace_bible_text" style="margin-left: 3%; margin-right: 3%; margin-top: -3%">
             </div>
           </div>
@@ -51,6 +52,10 @@ layout: default
     // Retrieve variables from file and update DOM
     populateReadingByDay = function(day, data, bp_videos) {
       let url = ""
+      
+      // add spinner for bible passage
+      let spinner_classes="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"
+      $( "#bg_progress" ).addClass(spinner_classes);
 
       // Get data that corresponds to current value of day
       console.log(`Selected Day is ${day}`)
@@ -111,6 +116,7 @@ layout: default
           });
 
           // Finally, update UI
+          $( "#bg_progress" ).removeClass(spinner_classes);
           $( "#replace_bible_text" ).html(passage_bible);
           return false; // prevents auto jump to top of page when ajax completes
         }
