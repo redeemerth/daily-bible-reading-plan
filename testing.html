@@ -88,7 +88,6 @@ layout: default
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
       // Pass through CORS server to add required headers for cross origin resource
       let cors = "https://more-love.herokuapp.com/reqtesting"
-      //let cors = "http://localhost:3000/reqtesting"
 
       $.ajax({
         type: 'POST',
@@ -119,6 +118,9 @@ layout: default
     };
     
     $( document ).ready(function() {
+      
+      {% include onload_ping.html %}
+      
       // Get main json from file; convert from Ruby hash to json object
       let data = {{site.data.main | jsonify}}
       // Get Bible Project metadata

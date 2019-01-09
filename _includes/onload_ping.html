@@ -1,15 +1,10 @@
-<script>
-$( document ).ready(function() {
-    let cors = "https://more-love.herokuapp.com/req"
-    $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: cors,
-        data: `{"page": "{{page.name}}"}`,
-        dataType: 'text',
-        success: function(data) {
-        return false;
-        }
-    });
+$.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: "https://more-love.herokuapp.com/onload",
+    data: `{"page": "{{page.name}}"}`,
+    dataType: 'text',
+    success: function(data) {
+    return false;
+    }
 });
-</script>

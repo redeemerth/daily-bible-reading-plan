@@ -48,4 +48,8 @@ layout: default
           </div>
         </div>
     </div>
-    {% include onload_ping.html %}
+    <script>
+      $( document ).ready(function() {
+      {% include onload_ping.html %}
+      });
+    </script>

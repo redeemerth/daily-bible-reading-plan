@@ -118,6 +118,9 @@ layout: default
     };
     
     $( document ).ready(function() {
+      
+      {% include onload_ping.html %}
+      
       // Get main json from file; convert from Ruby hash to json object
       let data = {{site.data.main | jsonify}}
       // Get Bible Project metadata
