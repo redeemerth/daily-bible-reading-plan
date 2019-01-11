@@ -78,7 +78,7 @@ layout: default
       {
           mm='0'+mm;
       }
-      return `${yyyy}-${mm}-${dd}`
+      return `${yyyy}-${mm}-${dd}`;
     }
 
     // Retrieve variables from file and update DOM
@@ -86,7 +86,7 @@ layout: default
       let url;
       
       // add spinner for bible passage
-      let spinner_classes="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"
+      let spinner_classes="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active";
       $( "#bg_progress" ).addClass(spinner_classes);
 
       // Get data that corresponds to current value of day
@@ -101,7 +101,7 @@ layout: default
       // Build Bible Project ad hoc playlist URL
       var playlistIdsArr = [];
       var iterReadings = readings[Symbol.iterator]();
-      console.log("Books in today's reading:")
+      console.log("Books in today's reading:");
       for (let reading of iterReadings) {
         var book = reading.split(' ')[0];
         console.log(book);
@@ -115,7 +115,7 @@ layout: default
       url = data.plans.oyb_nlt.url;
       // Create complete URL
       url = url.replace("{var1}", day_reading_data["oyb"]["audio"]["nlt"]);
-      console.log(`Daily reading url: ${url}`)
+      console.log(`Daily reading url: ${url}`);
       // Update UI
       document.getElementById('audio_url').src = url;
       document.getElementById('audio_refresh').load();
@@ -174,7 +174,7 @@ layout: default
 
       $("#audio_refresh").on('play',function () {
         // apply to iOS only
-        let iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+        let iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         if (iOS) {
           $("#audio_help_text").show();
           setTimeout(function () {$("#audio_help_text").hide()}, 6000);
@@ -183,7 +183,7 @@ layout: default
 
       $("#submit_date").on("click", function (event) {
         event.preventDefault();
-        var str = $("#datepicker").val()
+        var str = $("#datepicker").val();
         console.log(`Date submitted is: ${str}`);
         var year = str.substring(0, 4);
         var month = str.substring(5, 7);
