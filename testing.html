@@ -153,7 +153,6 @@ layout: default
           return false; // prevents auto jump to top of page when ajax completes
         }
       });
-      return false
     };
     
     $( document ).ready(function() {
@@ -178,7 +177,7 @@ layout: default
         setTimeout(function () {$("#audio_help_text").hide()}, 6000);
       });
 
-      $("#submit_date").on("submit", function (event) {
+      $("#submit_date").on("click", function (event) {
         event.preventDefault();
         var str = $("#datepicker").val()
         console.log(`Date submitted is: ${str}`);
