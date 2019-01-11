@@ -7,7 +7,16 @@ layout: default
           {% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}
         </h4>
         <h6 class="mdl-layout__headline" id="readings"></h6>
-        <p>Reading selector: <input type="date" id="datepicker"></p>
+        <p>Reading selector:
+          <form>
+            <input type="date" id="datepicker" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+            <!-- Accent-colored raised button with ripple -->
+            <!-- Colored FAB button -->
+            <button id="submit_date" class="mdl-button mdl-js-button mdl-button--colored">
+              <i class="material-icons md-18">input</i>
+            </button>
+          </form>
+        </p>
       </div>
       <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp">
@@ -56,16 +65,32 @@ layout: default
       return dayOfYear;
     };
 
+    getToday = function getToday () {
+      let today = new Date();
+      let dd = today.getDate();
+      let mm = today.getMonth()+1; 
+      let yyyy = today.getFullYear();
+      if(dd<10) 
+      {
+          dd='0'+dd;
+      } 
+      if(mm<10) 
+      {
+          mm='0'+mm;
+      }
+      return `${yyyy}-${mm}-${dd}`
+    }
+
     // Retrieve variables from file and update DOM
     populateReadingByDay = function(day, data, bp_videos) {
-      let url = ""
+      let url;
       
       // add spinner for bible passage
       let spinner_classes="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"
       $( "#bg_progress" ).addClass(spinner_classes);
 
       // Get data that corresponds to current value of day
-      console.log(`Selected Day is ${day}`)
+      console.log(`Selected Day is ${day}`);
       let day_reading_data = data.days[day];
 
       // Get list of Scriptures that corresponds to current value of day
@@ -80,10 +105,10 @@ layout: default
       for (let reading of iterReadings) {
         var book = reading.split(' ')[0];
         console.log(book);
-        playlistIdsArr = playlistIdsArr.concat(bp_videos.books[book])
+        playlistIdsArr = playlistIdsArr.concat(bp_videos.books[book]);
       }
-      var playlistIds = playlistIdsArr.join(',')
-      url = `https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=${playlistIds}`
+      var playlistIds = playlistIdsArr.join(',');
+      url = `https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=${playlistIds}`;
       document.getElementById('bp_playlist').src = url;
 
       // Get url part that corresponds to current value of day
@@ -93,13 +118,13 @@ layout: default
       console.log(`Daily reading url: ${url}`)
       // Update UI
       document.getElementById('audio_url').src = url;
-      document.getElementById('audio_refresh').load()
+      document.getElementById('audio_refresh').load();
       
       // Build Bible Gateway URL and retrieve reading text
       let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
-      let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
+      let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''));
       // Pass through CORS server to add required headers for cross origin resource
-      let cors = "https://more-love.herokuapp.com/reqtesting"
+      let cors = "https://more-love.herokuapp.com/reqtesting";
 
       $.ajax({
         type: 'POST',
@@ -108,8 +133,8 @@ layout: default
         data: `{"page": "{{page.name}}", "day": "${day}", "url": "${bg_url}"}`,
         dataType: 'text',
         success: function(data) {
-          var $page = $("<div>").html(data)
-          var passage_bible = $($page).find("div.passage-bible").find("div.passage-text")
+          var $page = $("<div>").html(data);
+          var passage_bible = $($page).find("div.passage-bible").find("div.passage-text");
 
           // Reduce heading sizes
           $(passage_bible).find('h1, h2, h3, h4, h5').replaceWith(function() {
@@ -118,7 +143,7 @@ layout: default
 
           // Ensure relative links are absolute to point to BG.
           $( passage_bible ).find( "a[href^='/versions/'], a[href^='/passage/']" ).each(function(){
-            var href = $(this).attr("href")
+            var href = $(this).attr("href");
             $(this).attr("href", `https://www.biblegateway.com${href}`);
           });
 
@@ -128,6 +153,7 @@ layout: default
           return false; // prevents auto jump to top of page when ajax completes
         }
       });
+      return false
     };
     
     $( document ).ready(function() {
@@ -135,9 +161,12 @@ layout: default
       {% include onload_ping.html %}
       
       // Get main json from file; convert from Ruby hash to json object
-      let data = {{site.data.main | jsonify}}
+      let data = {{site.data.main | jsonify}};
+      // Set default value in input date. Today's date in format mm/dd/yyyy.
+      let dateControl = document.querySelector('input[type="date"]');
+      dateControl.value = getToday();
       // Get Bible Project metadata
-      let bp_videos = {{site.data.bibleproject_lookup_by_book | jsonify}}
+      let bp_videos = {{site.data.bibleproject_lookup_by_book | jsonify}};
       // Get day
       let day = new Date().getDOY();
       console.log(day);
@@ -146,18 +175,20 @@ layout: default
 
       $("#audio_refresh").on('play',function () {
         $("#audio_help_text").show();
-        setTimeout(function () {$("#audio_help_text").hide()}, 6000)
+        setTimeout(function () {$("#audio_help_text").hide()}, 6000);
       });
 
-      $("input").on("change", function () {
-        var str = $(this).val()
+      $("#submit_date").on("submit", function (event) {
+        event.preventDefault();
+        var str = $("#datepicker").val()
+        console.log(`Date submitted is: ${str}`);
         var year = str.substring(0, 4);
         var month = str.substring(5, 7);
         var day = str.substring(8, 10);
         var myDate = new Date(`${month}/${day}/${year}`);
-        console.log(`Day selected: ${myDate}`)
+        console.log(`Day selected: ${myDate}`);
         populateReadingByDay(myDate.getDOY(), data, bp_videos);
-        document.getElementById('audio_refresh').play()
+        document.getElementById('audio_refresh').play();
       });
     });
   </script>
