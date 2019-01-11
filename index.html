@@ -14,9 +14,16 @@ layout: default
           <div class="mdl-card__supporting-text center">
             <h4 id="audio_description">Daily Bible Podcast</h4>
           </div>
-          <video id="audio_refresh" playsinline controls preload="metadata" name="media">
+          <div style="position: relative">
+            <video id="audio_refresh" playsinline controls preload="metadata" name="media">
               <source id="audio_url" type="audio/mp3">
-          </video>
+            </video>
+            <div class="overlay">
+              <p id="audio_help_text" class="mdl-color-text--white">
+                Tip: if on mobile device, you can use the arrows in the top left corner to enter full screen mode and continue listening after navigating away from page.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
@@ -52,13 +59,13 @@ layout: default
     // Retrieve variables from file and update DOM
     populateReadingByDay = function(day, data, bp_videos) {
       let url = ""
-
+      
       // add spinner for bible passage
       let spinner_classes="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"
       $( "#bg_progress" ).addClass(spinner_classes);
-      
+
       // Get data that corresponds to current value of day
-      console.log(`Day is ${day}`)
+      console.log(`Selected Day is ${day}`)
       let day_reading_data = data.days[day];
 
       // Get list of Scriptures that corresponds to current value of day
@@ -69,6 +76,7 @@ layout: default
       // Build Bible Project ad hoc playlist URL
       var playlistIdsArr = [];
       var iterReadings = readings[Symbol.iterator]();
+      console.log("Books in today's reading:")
       for (let reading of iterReadings) {
         var book = reading.split(' ')[0];
         console.log(book);
@@ -92,13 +100,12 @@ layout: default
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''))
       // Pass through CORS server to add required headers for cross origin resource
       let cors = "https://more-love.herokuapp.com/req"
-      let page_name = `{{page.name}}`
 
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
         url: cors,
-        data: `{"page": "${page_name}", "day": "${day}", "url": "${bg_url}"}`,
+        data: `{"page": "{{page.name}}", "day": "${day}", "url": "${bg_url}"}`,
         dataType: 'text',
         success: function(data) {
           var $page = $("<div>").html(data)
@@ -136,6 +143,11 @@ layout: default
       console.log(day);
       // Add data for today
       populateReadingByDay(day, data, bp_videos);
+
+      $("#audio_refresh").on('play',function () {
+        $("#audio_help_text").show();
+        setTimeout(function () {$("#audio_help_text").hide()}, 6000)
+      });
 
       $("input").on("change", function () {
         var str = $(this).val()
