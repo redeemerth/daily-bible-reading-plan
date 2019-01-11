@@ -37,3 +37,21 @@
 input, textarea {
   font-size: initial;
 }
+
+#audio_refresh {
+  position: relative;
+  z-index: 0;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding: 5%;
+}
+
+#audio_help_text {
+  background-color: grey;
+  padding: 5%;
+  display: none;
+}

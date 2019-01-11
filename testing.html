@@ -14,9 +14,16 @@ layout: default
           <div class="mdl-card__supporting-text center">
             <h4 id="audio_description">Daily Bible Podcast</h4>
           </div>
-          <video id="audio_refresh" playsinline controls preload="metadata" name="media">
+          <div style="position: relative">
+            <video id="audio_refresh" playsinline controls preload="metadata" name="media">
               <source id="audio_url" type="audio/mp3">
-          </video>
+            </video>
+            <div class="overlay">
+              <p id="audio_help_text" class="mdl-color-text--white">
+                Tip: if on mobile device, you can use the arrows in the top left corner to enter full screen mode and continue listening after navigating away from page.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
@@ -136,6 +143,11 @@ layout: default
       console.log(day);
       // Add data for today
       populateReadingByDay(day, data, bp_videos);
+
+      $("#audio_refresh").on('play',function () {
+        $("#audio_help_text").show();
+        setTimeout(function () {$("#audio_help_text").hide()}, 6000)
+      });
 
       $("input").on("change", function () {
         var str = $(this).val()
