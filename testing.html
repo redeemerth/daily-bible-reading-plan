@@ -29,7 +29,7 @@ layout: default
             </video>
             <div class="overlay">
               <p id="audio_help_text" class="mdl-color-text--white">
-                Tip: if on mobile device, you can use the arrows in the top left corner to enter full screen mode and continue listening after navigating away from page.
+                Tip: use the arrows in the top left corner to enter full screen mode and continue listening after navigating away from page.
               </p>
             </div>
           </div>
@@ -173,8 +173,12 @@ layout: default
       populateReadingByDay(day, data, bp_videos);
 
       $("#audio_refresh").on('play',function () {
-        $("#audio_help_text").show();
-        setTimeout(function () {$("#audio_help_text").hide()}, 6000);
+        // apply to iOS only
+        let iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+        if (iOS) {
+          $("#audio_help_text").show();
+          setTimeout(function () {$("#audio_help_text").hide()}, 6000);
+        }
       });
 
       $("#submit_date").on("click", function (event) {
