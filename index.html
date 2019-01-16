@@ -3,20 +3,27 @@ layout: default
 ---
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone" style="text-align: center">
-        <h4 class="mdl-layout__title" id="plan_description">
-          {% assign plan = site.data.main['plans']['oyb_nlt'] %}{{plan.plan_description}}
-        </h4>
+        <!-- Choose Different Bible Plan and Version Combination -->
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <select class="mdl-textfield__input" id="plan_selection" name="plan_selection">
+            <option></option>
+            {% for plan in site.data.picklist %}
+            <option value="{{plan.name}}">{{plan.description}} ({{plan.version}})</option>
+            {% endfor %}
+          </select>
+          <label class="mdl-textfield__label" for="plan_selection">Change Reading Plan</label>
+        </div>
+        <h4 class="mdl-layout__title" id="plan_description"></h4>
         <h6 class="mdl-layout__headline" id="readings"></h6>
-        <p>Reading selector:
-          <form>
-            <input type="date" id="datepicker" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
-            <!-- Accent-colored raised button with ripple -->
-            <!-- Colored FAB button -->
-            <button id="submit_date" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab">
-              <i class="material-icons">input</i>
-            </button>
-          </form>
-        </p>
+        <h6 class="mdl-layout__headline" id="day_selected"></h6>
+        <form>
+          <input type="date" id="datepicker" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+          <!-- Accent-colored raised button with ripple -->
+          <!-- Colored FAB button -->
+          <button id="submit_date" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab">
+            <i class="material-icons">input</i>
+          </button>
+        </form>
       </div>
       <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="mdl-card mdl-shadow--3dp">
@@ -82,49 +89,51 @@ layout: default
     }
 
     // Retrieve variables from file and update DOM
-    populateReadingByDay = function(day, data, bp_videos) {
-      let url;
+    populateReadingByDay = function(day, daily_readings, daily_audio, bp_videos) {
       
       // add spinner for bible passage
       let spinner_classes="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active";
       $( "#bg_progress" ).addClass(spinner_classes);
 
-      // Get data that corresponds to current value of day
-      console.log(`Selected Day is ${day}`);
-      let day_reading_data = data.days[day];
-
       // Get list of Scriptures that corresponds to current value of day
-      let readings = day_reading_data["oyb"]["readings"];
+      let readings = daily_readings['days'][day];
       // Update UI
-      document.getElementById('readings').innerHTML = `Day ${day}: ${readings.join(', ')}`;
+      document.getElementById('plan_description').innerHTML = `${daily_readings['plan_description']} (${daily_audio['version']})`;
+      document.getElementById('readings').innerHTML = `<strong>Readings:</strong> ${readings.join(', ')}`;
+      document.getElementById('day_selected').innerHTML = `Read Day <strong>${day}</strong> or select another day`;
 
-      // Build Bible Project ad hoc playlist URL
+      // Build Bible Project ad hoc playlist URL from day readings
       var playlistIdsArr = [];
       var iterReadings = readings[Symbol.iterator]();
-      console.log("Books in today's reading:");
       for (let reading of iterReadings) {
         var book = reading.split(' ')[0];
         console.log(book);
         playlistIdsArr = playlistIdsArr.concat(bp_videos.books[book]);
       }
       var playlistIds = playlistIdsArr.join(',');
-      url = `https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=${playlistIds}`;
-      document.getElementById('bp_playlist').src = url;
+      let bp_url = `https://www.youtube-nocookie.com/embed/VIDEO_ID?playlist=${playlistIds}`;
+      document.getElementById('bp_playlist').src = bp_url;
 
-      // Get url part that corresponds to current value of day
-      url = data.plans.oyb_nlt.url;
+      // Build Audio URL from day selected
+      let audio_url = daily_audio['url'];
       // Create complete URL
-      url = url.replace("{var1}", day_reading_data["oyb"]["audio"]["nlt"]);
-      console.log(`Daily reading url: ${url}`);
-      // Update UI
-      document.getElementById('audio_url').src = url;
+      if ('days' in daily_audio) {
+        audio_url = audio_url.replace("{var1}", daily_audio['days'][day]);
+      } else {
+        // assume esv
+        let esvparam = esvaudio.processRef(readings.join(' '));
+        audio_url = audio_url.replace("{var1}", esvparam[0]);
+      }
+      
+      // Update UI with audio
+      document.getElementById('audio_url').src = audio_url;
       document.getElementById('audio_refresh').load();
       
       // Build Bible Gateway URL and retrieve reading text
-      let base_url = 'https://www.biblegateway.com/passage/?search={var1}&version=NLT&interface=print';
+      let base_url = `https://www.biblegateway.com/passage/?search={var1}&version=${daily_audio['version']}&interface=print`;
       let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''));
       // Pass through CORS server to add required headers for cross origin resource
-      let cors = "https://more-love.herokuapp.com/req";
+      let cors = "https://more-love.herokuapp.com/reqtesting";
 
       $.ajax({
         type: 'POST',
@@ -156,21 +165,41 @@ layout: default
     };
     
     $( document ).ready(function() {
-      
+
       {% include onload_ping.html %}
+
+      // Get data and set vars
+      let all_readings = {{site.data.readings | jsonify}};
+      let all_audio = {{site.data.audio | jsonify}};
+      let bp_videos = {{site.data.bibleproject_lookup_by_book | jsonify}};
+
+      // Get URL query params if present
+      var url_string = window.location;
+      var url = new URL(url_string);
+      var reading_plan = url.searchParams.get("plan");
+      var bible_version = url.searchParams.get("version");
+
+      // set vars conditionally based on URL params
+      let readings;
+      let audio;
+      if (reading_plan && bible_version) {
+        readings = all_readings[reading_plan];
+        audio = all_audio[reading_plan][bible_version];
+      } else {
+        // defaults
+        readings = all_readings['oyb'];
+        audio = all_audio['oyb']['nlt'];
+      }
       
-      // Get main json from file; convert from Ruby hash to json object
-      let data = {{site.data.main | jsonify}};
       // Set default value in input date. Today's date in format mm/dd/yyyy.
       let dateControl = document.querySelector('input[type="date"]');
       dateControl.value = getToday();
-      // Get Bible Project metadata
-      let bp_videos = {{site.data.bibleproject_lookup_by_book | jsonify}};
+
       // Get day
       let day = new Date().getDOY();
-      console.log(day);
+
       // Add data for today
-      populateReadingByDay(day, data, bp_videos);
+      populateReadingByDay(day, readings, audio, bp_videos);
 
       $("#audio_refresh").on('play',function () {
         // apply to iOS only
@@ -179,6 +208,12 @@ layout: default
           $("#audio_help_text").show();
           setTimeout(function () {$("#audio_help_text").hide()}, 6000);
         }
+      });
+
+      $("#plan_selection").on("change", function (event) {
+        let plan = $("#plan_selection option:selected").val();
+        plan = plan.split('-');
+        window.location.search = `plan=${plan[0]}&version=${plan[1]}`;
       });
 
       $("#submit_date").on("click", function (event) {
@@ -190,7 +225,7 @@ layout: default
         var day = str.substring(8, 10);
         var myDate = new Date(`${month}/${day}/${year}`);
         console.log(`Day selected: ${myDate}`);
-        populateReadingByDay(myDate.getDOY(), data, bp_videos);
+        populateReadingByDay(myDate.getDOY(), readings, audio, bp_videos);
         document.getElementById('audio_refresh').play();
       });
     });

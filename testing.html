@@ -119,7 +119,7 @@ layout: default
       document.getElementById('bp_playlist').src = bp_url;
 
       // Build Audio URL from day selected
-      let audio_url = daily_audio['url']
+      let audio_url = daily_audio['url'];
       // Create complete URL
       if ('days' in daily_audio) {
         audio_url = audio_url.replace("{var1}", daily_audio['days'][day]);
@@ -173,6 +173,8 @@ layout: default
     
     $( document ).ready(function() {
 
+      {% include onload_ping.html %}
+
       let all_readings = {{site.data.readings | jsonify}};
       let all_audio = {{site.data.audio | jsonify}};
 
@@ -181,12 +183,13 @@ layout: default
       var url = new URL(url_string);
       var reading_plan = url.searchParams.get("plan");
       var bible_version = url.searchParams.get("version");
-      console.log("reading plan and bible version")
-      console.log(reading_plan)
-      console.log(bible_version)
+      console.log("reading plan and bible version");
+      console.log(reading_plan);
+      console.log(bible_version);
 
       let readings;
       let audio;
+      // set vars conditionally based on URL params
       if (reading_plan && bible_version) {
         readings = all_readings[reading_plan];
         // audio contains two possible keys 'days' (dict) and 'url' (string)
@@ -198,12 +201,7 @@ layout: default
       }
       console.log(readings);
       console.log(audio);
-
-      
-      {% include onload_ping.html %}
-      
-      // Get main json from file; convert from Ruby hash to json object
-      let data = {{site.data.main | jsonify}};
+    
       // Set default value in input date. Today's date in format mm/dd/yyyy.
       let dateControl = document.querySelector('input[type="date"]');
       dateControl.value = getToday();
@@ -226,8 +224,8 @@ layout: default
 
       $("#plan_selection").on("change", function (event) {
         let plan = $("#plan_selection option:selected").val();
-        plan = plan.split('-')
-        window.location.search = `plan=${plan[0]}&version=${plan[1]}`
+        plan = plan.split('-');
+        window.location.search = `plan=${plan[0]}&version=${plan[1]}`;
       });
 
       $("#submit_date").on("click", function (event) {
