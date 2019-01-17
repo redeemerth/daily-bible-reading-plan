@@ -8,7 +8,10 @@ main_dict = {}
 # [1]: plan description
 # [2]: path to csv to convert to json
 
-plans = [('oyb', 'The One Year® Bible', 'input/oyb_daily_reading_texts.csv')]
+plans = [
+        ('oyb', 'The One Year® Bible', 'input/oyb_daily_reading_texts.csv'),
+        ('bp', 'The Bible Project Plan', 'input/bibleproject_daily_reading_texts.csv')
+        ]
 for plan in plans:
     main_dict[plan[0]] = {}
 

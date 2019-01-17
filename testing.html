@@ -88,6 +88,15 @@ layout: default
       return `${yyyy}-${mm}-${dd}`;
     }
 
+    removePassageAnnotation = function removePassageAnnotation (list) {
+      let trimmed_list = [];
+      let iterReadings = list[Symbol.iterator]();
+      for (let item of iterReadings) {
+        trimmed_list = trimmed_list.concat(item.split('[')[0].trim());
+      }
+      return trimmed_list;
+    }
+
     // Retrieve variables from file and update DOM
     populateReadingByDay = function(day, daily_readings, daily_audio, bp_videos) {
       
@@ -99,10 +108,11 @@ layout: default
       console.log(`Selected Day is ${day}`);
 
       // Get list of Scriptures that corresponds to current value of day
-      let readings = daily_readings['days'][day];
+      let original_readings = daily_readings['days'][day];
+      let readings = removePassageAnnotation(original_readings);
       // Update UI
       document.getElementById('plan_description').innerHTML = `${daily_readings['plan_description']} (${daily_audio['version']})`;
-      document.getElementById('readings').innerHTML = `<strong>Readings:</strong> ${readings.join(', ')}`;
+      document.getElementById('readings').innerHTML = `<strong>Readings:</strong> ${original_readings.join(', ')}`;
       document.getElementById('day_selected').innerHTML = `Read Day <strong>${day}</strong> or select another day`;
 
       // Build Bible Project ad hoc playlist URL from day readings

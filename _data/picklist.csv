@@ -1,3 +1,4 @@
 id,plan_id,name,description,version
 1,1,oyb-nlt,One Year Bible,NLT
 2,1,oyb-esv,One Year Bible,ESV
+3,2,bp-esv,The Bible Project Plan,ESV
