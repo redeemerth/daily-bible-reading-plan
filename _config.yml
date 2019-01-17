@@ -3,10 +3,13 @@ title: Daily Bible Podcast
 email: your-email@domain.com
 description: > # this means to ignore newlines until "baseurl:"
   The Daily Bible Podcast enables you easily to hear and read the Bible every day
-  and go through the entire Bible in a year (365 days). A new audio podcast and reading is
-  available for every day of the year. In addition, videos related to the reading
-  from The Bible Project are provided each day for you to dig deeper and gain more
-  from your time in the Bible.
+  and go through the entire Bible in a year (365 days). Choose from many popular Bible
+  reading plans, including the One Year Bible. Bible audio content (the podcast) is primarily
+  in the English Standard Version (ESV) of the Bible, although at least one plan uses the
+  New Living Translation (NLT). A new audio podcast and reading is available for every
+  day of the year, all in one place. In addition, videos from The Bible Project that are
+  related to the day's reading are also included for easy viewing. Bookmark your selected plan
+  to return to it quickly and use it by default on your return visits.
 baseurl: "/daily-bible-reading-plan/" # the subpath of your site, e.g. /blog/
 url: "https://redeemerth.github.io/daily-bible-reading-plan" # the base hostname & protocol for your site
 
