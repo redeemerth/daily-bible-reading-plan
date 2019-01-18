@@ -147,8 +147,8 @@ layout: default
       document.getElementById('audio_refresh').load();
 
       // Pass through CORS server to add required headers for cross origin resource
-      //let cors = "https://more-love.herokuapp.com/reqtesting";
-      let cors = "http://localhost:3000/reqtesting";
+      let cors = "https://more-love.herokuapp.com/reqtesting";
+      //let cors = "http://localhost:3000/reqtesting";
 
       // Build BST URL and retrieve reading text
       let query = `?q=${readings.join(';+').replace(' ', '+').split(' ').join('')}&t=${daily_audio['version']}`;
