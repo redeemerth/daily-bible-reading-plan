@@ -10,7 +10,8 @@ main_dict = {}
 
 plans = [
         ('oyb', 'The One Year® Bible', 'input/oyb_daily_reading_texts.csv'),
-        ('bp', 'The Bible Project Plan', 'input/bibleproject_daily_reading_texts.csv')
+        ('bp', 'The Bible Project Plan', 'input/bibleproject_daily_reading_texts.csv'),
+        ('90d', 'The Bible in 90 Days', 'input/bible_in_90_days_reading_texts.csv')
         ]
 for plan in plans:
     main_dict[plan[0]] = {}
