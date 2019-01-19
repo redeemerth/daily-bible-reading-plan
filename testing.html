@@ -152,7 +152,10 @@ layout: default
       //let cors = "http://localhost:3000/reqtesting";
 
       // Build BST URL and retrieve reading text
-      let query = `?q=${readings.join(';+').replace(' ', '+').split(' ').join('')}&t=${daily_audio['version']}`;
+      let query = `?q=${readings.join(';+').split(' ').join('+')}&t=${daily_audio['version']}`;
+      console.log("BST query is:");
+      console.log(query);
+
 
       $.ajax({
         type: 'POST',
