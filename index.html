@@ -140,7 +140,7 @@ layout: default
       document.getElementById('audio_refresh').load();
 
       // Pass through CORS server to add required headers for cross origin resource
-      let cors = "https://more-love.herokuapp.com/req";
+      let cors = "https://more-love.herokuapp.com";
 
       // Build BST URL and retrieve reading text
       let query = `?q=${readings.join(';+').split(' ').join('+')}&t=${daily_audio['version']}`;
@@ -148,7 +148,7 @@ layout: default
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: cors,
+        url: `${cors}/req/${plan_abbr}/${version_abbr}/${day}`,
         data: `{"page": "{{page.name}}", "plan": "${plan_abbr}", "version": "${version_abbr}","day": "${day}", "domain": "bst", "query": "${query}"}`,
         dataType: 'text',
         success: function(data) {
@@ -177,6 +177,8 @@ layout: default
       let audio;
       // set vars conditionally based on URL params
       if (reading_plan && bible_version) {
+        reading_plan = reading_plan.toLowerCase();
+        bible_version = bible_version.toLowerCase();
         readings = all_readings[reading_plan];
         // audio contains two possible keys 'days' (dict) and 'url' (string)
         audio = all_audio[reading_plan][bible_version];

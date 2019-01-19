@@ -192,8 +192,8 @@ layout: default
       let audio;
       // set vars conditionally based on URL params
       if (reading_plan && bible_version) {
-        reading_plan = reading_plan.toLocaleLowerCase();
-        bible_version = bible_version.toLocaleLowerCase();
+        reading_plan = reading_plan.toLowerCase();
+        bible_version = bible_version.toLowerCase();
         readings = all_readings[reading_plan];
         // audio contains two possible keys 'days' (dict) and 'url' (string)
         audio = all_audio[reading_plan][bible_version];
