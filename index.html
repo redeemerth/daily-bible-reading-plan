@@ -99,7 +99,7 @@ layout: default
     }
 
     // Retrieve variables from file and update DOM
-    populateReadingByDay = function(day, daily_readings, daily_audio, bp_videos) {
+    populateReadingByDay = function(day, daily_readings, daily_audio, bp_videos, plan_abbr, version_abbr) {
       
       // add spinner for bible passage
       let spinner_classes="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active";
@@ -138,37 +138,23 @@ layout: default
       // Update UI with audio
       document.getElementById('audio_url').src = audio_url;
       document.getElementById('audio_refresh').load();
-      
-      // Build Bible Gateway URL and retrieve reading text
-      let base_url = `https://www.biblegateway.com/passage/?search={var1}&version=${daily_audio['version']}&interface=print`;
-      let bg_url = base_url.replace('{var1}', readings.join('%3B').replace(':', '%3A').split(' ').join(''));
+
       // Pass through CORS server to add required headers for cross origin resource
       let cors = "https://more-love.herokuapp.com/req";
+
+      // Build BST URL and retrieve reading text
+      let query = `?q=${readings.join(';+').replace(' ', '+').split(' ').join('')}&t=${daily_audio['version']}`;
 
       $.ajax({
         type: 'POST',
         contentType: 'application/json',
         url: cors,
-        data: `{"page": "{{page.name}}", "day": "${day}", "url": "${bg_url}"}`,
+        data: `{"page": "{{page.name}}", "plan": "${plan_abbr}", "version": "${version_abbr}","day": "${day}", "domain": "bst", "query": "${query}"}`,
         dataType: 'text',
         success: function(data) {
-          var $page = $("<div>").html(data);
-          var passage_bible = $($page).find("div.passage-bible").find("div.passage-text");
-
-          // Reduce heading sizes
-          $(passage_bible).find('h1, h2, h3, h4, h5').replaceWith(function() {
-            return '<h6>' + $(this).text() + '</h6>';
-          });
-
-          // Ensure relative links are absolute to point to BG.
-          $( passage_bible ).find( "a[href^='/versions/'], a[href^='/passage/']" ).each(function(){
-            var href = $(this).attr("href");
-            $(this).attr("href", `https://www.biblegateway.com${href}`);
-          });
-
           // Finally, update UI
           $( "#bg_progress" ).removeClass(spinner_classes);
-          $( "#replace_bible_text" ).html(passage_bible);
+          $( "#replace_bible_text" ).html(data);
           return false; // prevents auto jump to top of page when ajax completes
         }
       });
@@ -178,10 +164,8 @@ layout: default
 
       {% include onload_ping.html %}
 
-      // Get data and set vars
       let all_readings = {{site.data.readings | jsonify}};
       let all_audio = {{site.data.audio | jsonify}};
-      let bp_videos = {{site.data.bibleproject_lookup_by_book | jsonify}};
 
       // Get URL query params if present
       var url_string = window.location;
@@ -189,27 +173,30 @@ layout: default
       var reading_plan = url.searchParams.get("plan");
       var bible_version = url.searchParams.get("version");
 
-      // set vars conditionally based on URL params
       let readings;
       let audio;
+      // set vars conditionally based on URL params
       if (reading_plan && bible_version) {
         readings = all_readings[reading_plan];
+        // audio contains two possible keys 'days' (dict) and 'url' (string)
         audio = all_audio[reading_plan][bible_version];
       } else {
         // defaults
+        reading_plan = 'oyb';
+        bible_version = 'nlt';
         readings = all_readings['oyb'];
         audio = all_audio['oyb']['nlt'];
       }
-      
+    
       // Set default value in input date. Today's date in format mm/dd/yyyy.
       let dateControl = document.querySelector('input[type="date"]');
       dateControl.value = getToday();
-
+      // Get Bible Project metadata
+      let bp_videos = {{site.data.bibleproject_lookup_by_book | jsonify}};
       // Get day
       let day = new Date().getDOY();
-
       // Add data for today
-      populateReadingByDay(day, readings, audio, bp_videos);
+      populateReadingByDay(day, readings, audio, bp_videos, reading_plan, bible_version);
 
       $("#audio_refresh").on('play',function () {
         // apply to iOS only
@@ -233,7 +220,7 @@ layout: default
         var month = str.substring(5, 7);
         var day = str.substring(8, 10);
         var myDate = new Date(`${month}/${day}/${year}`);
-        populateReadingByDay(myDate.getDOY(), readings, audio, bp_videos);
+        populateReadingByDay(myDate.getDOY(), readings, audio, bp_videos, reading_plan, bible_version);
         document.getElementById('audio_refresh').play();
       });
     });
