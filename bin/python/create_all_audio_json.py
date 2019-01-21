@@ -5,7 +5,7 @@ import csv, json
 main_dict = {}
 
 # create key for each bible reading plan
-for item in ['oyb', 'bp', '90d']:
+for item in ['oyb', 'bp', '90d', 'chron']:
     main_dict[item] = {}
     
 # List of tuples. Each tuple has 
@@ -14,10 +14,11 @@ for item in ['oyb', 'bp', '90d']:
 # [2]: base url to audio
 # [3]: path to csv to convert to json (if any). Use None if not.
 audio = [
-        ('oyb', 'nlt', 'http://audio.oneyearbibleonline.com/tomdooley/{var1}.mp3', 'input/oneyearbible_urls.csv'),
-        ('oyb', 'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
-        ('bp', 'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
-        ('90d', 'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None)
+        ('oyb',   'nlt', 'http://audio.oneyearbibleonline.com/tomdooley/{var1}.mp3', 'input/oneyearbible_urls.csv'),
+        ('oyb',   'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
+        ('bp',    'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
+        ('90d',   'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
+        ('chron', 'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None)
         ]
 
 for a in audio:
@@ -47,7 +48,7 @@ for a in audio:
     # Create key for version abbreviation
     main_dict[a[0]][a[1]]['version'] = a[1].upper()
 
-with open('output/plan_audio_by_bible_version.json', 'w') as fp:
+with open('output/audio.json', 'w') as fp:
     json.dump(main_dict, fp)
 
 print("Done executing program")
