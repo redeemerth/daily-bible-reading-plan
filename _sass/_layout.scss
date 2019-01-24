@@ -8,6 +8,7 @@
 
 .mdl-card{
   width: 100%;
+  height: 100%;
 }
 
 .mdl-grid{
@@ -62,4 +63,16 @@ input, textarea {
   margin-right: 3%;
   margin-bottom: 5%;
   line-height: 1.7;
+}
+
+.td_rt {
+  text-align: right;
+}
+
+td {
+  vertical-align: top;
+}
+
+input[type="date"] {
+  font-family: inherit;
 }

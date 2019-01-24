@@ -2,28 +2,79 @@
 layout: default
 ---
     <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone" style="text-align: center">
-        <h4 class="mdl-layout__title" id="plan_description"></h4>
-        <h6 class="mdl-layout__headline" id="readings"></h6>
-        <h6 class="mdl-layout__headline" id="day_selected"></h6>
-        <form>
-          <input type="date" id="datepicker" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
-          <!-- Accent-colored raised button with ripple -->
-          <!-- Colored FAB button -->
-          <button id="submit_date" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab">
-            <i class="material-icons">input</i>
-          </button>
-        </form>
-        <!-- Choose Different Bible Plan and Version Combination -->
-        <h6>Optionally choose a different plan:</h6>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <select class="mdl-textfield__input" id="plan_selection" name="plan_selection">
-            <option></option>
-            {% for plan in site.data.picklist %}
-            <option value="{{plan.name}}">{{plan.description}} ({{plan.version}})</option>
-            {% endfor %}
-          </select>
-          <label class="mdl-textfield__label" for="plan_selection">Change Reading Plan</label>
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone center">
+        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
+          <div class="mdl-card__supporting-text mdl-color-text--black">
+            <h4 class="mdl-color-text--primary">Daily Bible Podcast Home</h4>
+            <p>
+              Hear and read the Bible daily using the resources on this page. 
+              Use the default plan that is loaded, or choose another popular plan from the list of available plans. 
+              Each reading plan has a unique URL that can be bookmarked for easy sharing and retrieval.
+            </p>
+            <p>
+              An auto-generated playlist of "Read Scripture" videos from <a target="_blank" href="{{ site.baseurl }}bibleproject">The Bible Project</a>
+              is also available for each reading to provide context and background to your time in the Bible. 
+              The videos provide a detailed overview of every book of the Bible.
+            </p>
+          </div>
+        </div> 
+      </div>
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone center">
+        <div class="mdl-card mdl-shadow--3dp mdl-color-text--black">
+          <div class="mdl-card__supporting-text mdl-color-text--black">
+            <table>
+              <tr>
+                <td style="width:30%">
+                  <h6 class="mdl-color-text--primary td_rt"><strong>Plan Name:</strong></h6>
+                </td>
+                <td>
+                  <h6 class="mdl-color-text--primary" id="plan_description"></h6>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <h6 class="mdl-color-text--primary td_rt"><strong>Readings:</strong></h6>
+                </td>
+                <td>
+                  <h6 class="mdl-color-text--primary" id="readings"></h6>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6 class="mdl-color-text--primary td_rt"><strong>Plan Day:</strong></h6>
+                </td>
+                <td>
+                  <h6 class="mdl-color-text--primary" id="day_selected"></h6>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card mdl-shadow--3dp mdl-color-text--primary">
+          <div class="mdl-card__supporting-text mdl-color-text--primary">
+            <h4>Load New Day or Plan</h4>
+            <form>
+              <label style="font-size: 16px" for="datepicker">Date/Day:</label><br />
+              <input type="date" id="datepicker" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+              <!-- Accent-colored raised button with ripple -->
+              <!-- Colored FAB button -->
+              <button id="submit_date" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab">
+                  <i class="material-icons">input</i>
+              </button>
+            </form>
+            <!-- Choose Different Bible Plan and Version Combination -->
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <select class="mdl-textfield__input" id="plan_selection" name="plan_selection" style="width: 200px">
+                <option></option>
+                {% for plan in site.data.picklist %}
+                <option value="{{plan.name}}">{{plan.description}} ({{plan.version}})</option>
+                {% endfor %}
+              </select>
+              <label class="mdl-color-text--primary mdl-textfield__label" for="plan_selection">Reading Plan</label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
@@ -113,8 +164,8 @@ layout: default
       let readings = removePassageAnnotation(original_readings);
       // Update UI
       document.getElementById('plan_description').innerHTML = `${daily_readings['plan_description']} (${daily_audio['version']})`;
-      document.getElementById('readings').innerHTML = `<strong>Readings:</strong> ${original_readings.join(', ')}`;
-      document.getElementById('day_selected').innerHTML = `Read Day <strong>${day}</strong> or select another day:`;
+      document.getElementById('readings').innerHTML = `${original_readings.join(', ')}`;
+      document.getElementById('day_selected').innerHTML = `${day}`;
 
       // Build Bible Project ad hoc playlist URL from day readings
       var playlistIdsArr = [];
