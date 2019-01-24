@@ -65,14 +65,15 @@ input, textarea {
   line-height: 1.7;
 }
 
-.td_rt {
-  text-align: right;
-}
-
 td {
   vertical-align: top;
 }
 
 input[type="date"] {
   font-family: inherit;
+}
+
+td.lead {
+  font-size:16px;
+  padding-top:5%;
 }
