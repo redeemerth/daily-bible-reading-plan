@@ -2,7 +2,7 @@ $.ajax({
     type: 'POST',
     contentType: 'application/json',
     url: "https://more-power.herokuapp.com/onload",
-    data: `{"page": "{{page.name}}", "device":"${navigator.userAgent}", "ref": "${document.referrer}"}`,
+    data: `{"page": "{{page.name}}", "search": "${window.location.search}", "device":"${navigator.userAgent}", "ref": "${document.referrer}"}`,
     dataType: 'text',
     success: function(data) {
     return false;
