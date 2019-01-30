@@ -70,9 +70,27 @@ layout: default
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
           <select class="mdl-textfield__input" id="plan_selection" name="plan_selection" style="width: 200px">
             <option></option>
-            {% for plan in site.data.picklist %}
-            <option value="{{plan.name}}">{{plan.description}} ({{plan.version}})</option>
-            {% endfor %}
+            <optgroup label="Entire Bible in 365 days">
+              {% for plan in site.data.picklist %}
+                {% if plan.type == "365_whole_bible" %}
+                <option value="{{plan.name}}">{{plan.description}} ({{plan.version}})</option>
+                {% endif %}
+              {% endfor %}
+            </optgroup>
+            <optgroup label="Entire Bible in 90 days">
+              {% for plan in site.data.picklist %}
+                {% if plan.type == "90_whole_bible" %}
+                <option value="{{plan.name}}">{{plan.description}} ({{plan.version}})</option>
+                {% endif %}
+              {% endfor %}
+            </optgroup>
+            <optgroup label="Other Daily Reading Options">
+              {% for plan in site.data.picklist %}
+                {% if plan.type == "365_partial_bible" %}
+                <option value="{{plan.name}}">{{plan.description}} ({{plan.version}})</option>
+                {% endif %}
+              {% endfor %}
+            </optgroup>
           </select>
           <label class="mdl-color-text--primary mdl-textfield__label" for="plan_selection">Reading Plan</label>
         </div>
