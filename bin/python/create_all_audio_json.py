@@ -5,7 +5,7 @@ import csv, json
 main_dict = {}
 
 # create key for each bible reading plan
-for item in ['oyb', 'bp', '90d', 'chron', 'topic']:
+for item in ['oyb', 'bp', '90d', 'chron', 'topic', 'nt']:
     main_dict[item] = {}
     
 # List of tuples. Each tuple has 
@@ -19,7 +19,8 @@ audio = [
         ('bp',    'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
         ('90d',   'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
         ('chron', 'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
-        ('topic', 'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None)
+        ('topic', 'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None),
+        ('nt',    'esv', 'https://audio.esv.org/hw/hq/{var1}.mp3', None)
         ]
 
 for a in audio:

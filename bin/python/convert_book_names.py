@@ -5,7 +5,7 @@ Add new variants as needed.
 Use Bible_Metadata_Books_of_the_Bible.csv as reference
 '''
 
-filename = 'heartlight_topical_daily_reading_texts.csv'
+filename = 'heartlight_nt_ps_prov_daily_reading_texts.csv'
 file = f'input/{filename}'
 
 print(file)
@@ -28,6 +28,7 @@ lookup_dict = {
     'Esther': 'Esth',
     'Job': 'Job',
     'Psalms': 'Ps',
+    'Psalm': 'Ps',
     'Proverbs': 'Prov',
     'Ecclesiastes': 'Eccl',
     'Song of Solomon': 'Song',

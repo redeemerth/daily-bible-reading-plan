@@ -1,7 +1,8 @@
-id,plan_id,name,description,version
-1,1,chron-esv,Chronological Plan,ESV
-2,2,topic-esv,Topical Plan,ESV
-3,3,oyb-nlt,One Year Bible,NLT
-4,3,oyb-esv,One Year Bible,ESV
-5,4,bp-esv,The Bible Project Plan,ESV
-6,5,90d-esv,The Bible in 90 Days,ESV
+type,name,description,version
+365_whole_bible,oyb-nlt,One Year Bible,NLT
+365_whole_bible,oyb-esv,One Year Bible,ESV
+365_whole_bible,chron-esv,Chronological Plan,ESV
+365_whole_bible,bp-esv,The Bible Project Plan,ESV
+90_whole_bible,90d-esv,The Bible in 90 Days,ESV
+365_partial_bible,nt-esv,New Testament in 365 days,ESV
+365_partial_bible,topic-esv,Topical Plan,ESV
